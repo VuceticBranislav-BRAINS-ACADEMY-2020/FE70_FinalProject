@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useAuth } from "../Authentication/ProvideAuth";
-import { filterContext } from "../Pages/PageMain";
+import { filterContext } from "../Pages/Content";
 import { useContext } from "react";
 
 export const usePagedBookList = (

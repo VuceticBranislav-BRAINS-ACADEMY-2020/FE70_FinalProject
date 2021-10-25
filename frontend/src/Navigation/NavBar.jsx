@@ -3,7 +3,7 @@ import { ButtonGroup, Button } from "@mui/material";
 import { Link as RouterLink } from "react-router-dom";
 import Select from "@mui/material/Select";
 import MenuItem from "@mui/material/MenuItem";
-import { filterContext } from "../Pages/PageMain";
+import { filterContext } from "../Pages/Content";
 import { useContext } from "react";
 
 const NavBar = () => {

@@ -5,12 +5,10 @@ import { useAuth, ProvideAuth } from "./Authentication/ProvideAuth";
 import { ProvideUsers } from "./Authentication/ProvideUsers";
 import Footer from "./Navigation/Footer";
 import Header from "./Navigation/Header";
-import PageMain from "./Pages/PageMain";
+import Content from "./Pages/Content";
 import Article from "./Navigation/Article";
-import LogInBox from "./Components/LogIn/LogInBox";
+import LogInBox from "./Components/LogIn/PageLogIn";
 import SingInBox from "./Components/SignIn/SingInBox";
-import ButtonLogIn from "./Components/LogIn/ButtonLogIn";
-import ButtonSignIn from "./Components/LogIn/ButtonSignIn";
 import PrivateRoute from "./Navigation/PrivateRoute";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { blue } from "@mui/material/colors";
@@ -22,7 +20,8 @@ import AllBookList from "./Pages/AllBookList";
 import BookSearchPage from "./Pages/BookSearchPage";
 import BookSearchPageByAuthor from "./Pages/BookSearchPageByAuthor";
 import BookDetailPage from "./Pages/BookDetailPage";
-import BookDetail from "./Components/Books/BookDetail";
+import AddBookPage from "./Components/Books/AddBookPage";
+import Welcome from "./Pages/Welcome";
 
 //https://mui.com/customization/default-theme/
 //https://bareynol.github.io/mui-theme-creator/
@@ -56,22 +55,12 @@ const theme = createTheme({
     },
 });
 
-const AddBookPage = () => {
-    const [login] = useAuth();
-    return (
-        <BookDetail
-            startingMode="create"
-            action={(customer) => addCustomer(customer, login)}
-        />
-    );
-};
-
 function App() {
     return (
         <LocalizationProvider dateAdapter={AdapterLuxon}>
             <ProvideAuth>
                 <ThemeProvider theme={theme}>
-                    <PageMain>
+                    <Content>
                         <Router>
                             <Header />
                             <Article>
@@ -100,8 +89,7 @@ function App() {
                                         <BookDetailPage />
                                     </PrivateRoute>
                                     <Route exact path="/">
-                                        <ButtonLogIn />
-                                        <ButtonSignIn />
+                                        <Welcome />
                                     </Route>
                                     <Route path="*">
                                         <div>Error 404</div>
@@ -110,7 +98,7 @@ function App() {
                             </Article>
                             <Footer />
                         </Router>
-                    </PageMain>
+                    </Content>
                 </ThemeProvider>
             </ProvideAuth>
         </LocalizationProvider>

@@ -1,11 +1,20 @@
-import { Link as RouterLink, useHistory } from "react-router-dom";
-import { Button } from "@mui/material";
+/* Informations 
+╔═════════════════════════════════════════════════════════════════════════════╗
+║  v1.0  :  21-10-22                                                          ║
+║                                                                             ║
+║  Render LogIn button if user is not loged in.                               ║
+║                                                                             ║
+╚════════════════════════════════════════════════════════════════════════════*/
 
+// Imports
+import { Link as RouterLink } from "react-router-dom";
+import { Button } from "@mui/material";
 import { useAuth } from "../../Authentication/ProvideAuth";
 
+// Button element for log in. Visible when user is not loged in.
 const ButtonLogIn = () => {
     const [login, error, signin, signout] = useAuth();
-    const history = useHistory();
+
     if (login) {
         return "";
     } else {
@@ -17,4 +26,5 @@ const ButtonLogIn = () => {
     }
 };
 
+// Exports
 export default ButtonLogIn;

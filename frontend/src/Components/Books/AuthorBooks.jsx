@@ -1,6 +1,6 @@
 import React from "react";
 import { useBooksByAuthorList } from "../../Utils/accessHooks";
-import { filterContext } from "../../Pages/PageMain";
+import { filterContext } from "../../Pages/Content";
 import { useContext } from "react";
 
 const AuthorBooks = ({ authors }) => {

@@ -1,5 +1,6 @@
 /* Informations 
 ╔═════════════════════════════════════════════════════════════════════════════╗
+║  v1.0  :  21-10-21                                                          ║
 ║                                                                             ║
 ║  Provide authentication context used to wrap another elements. Context      ║
 ║  provide informations about logged user.                                    ║

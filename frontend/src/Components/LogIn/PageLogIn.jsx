@@ -1,8 +1,16 @@
-import { useAuth } from "../../Authentication/ProvideAuth";
+/* Informations 
+╔═════════════════════════════════════════════════════════════════════════════╗
+║  v1.0  :  21-10-22                                                          ║
+║                                                                             ║
+║  Render SignIn button if user is not loged in.                              ║
+║                                                                             ║
+╚════════════════════════════════════════════════════════════════════════════*/
+
+// Imports
 import { useHistory, useLocation } from "react-router-dom";
-import { Button } from "@mui/material";
+import { Button, TextField } from "@mui/material";
 import { Formik } from "formik";
-import { TextField } from "@mui/material";
+import { useAuth } from "../../Authentication/ProvideAuth";
 
 const LogInBox = () => {
     const history = useHistory();
@@ -76,4 +84,5 @@ const LogInBox = () => {
     );
 };
 
+// Exports
 export default LogInBox;
