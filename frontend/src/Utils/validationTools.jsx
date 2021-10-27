@@ -1,7 +1,7 @@
 import * as yup from "yup";
-import { DateTime } from "luxon";
 
 const userExists = async (username) => {
+    if (username === undefined) return false;
     return await fetch("http://localhost:3081/app/checkUsername/" + username, {
         method: "GET",
     })
@@ -42,42 +42,45 @@ function getMaxCount(str) {
 export const signupSchema = yup.object().shape({
     username: yup
         .string()
-        .min(3, "Username is to short. Length must be at least 3 character.")
-        .max(20, "Username is to long. Length must be 20 character or less.")
-        .test("is-unused", "${path} is not avalible", async (value) => {
+        .min(3, "Username is to short. Length must be at least 3 character")
+        .max(20, "Username is to long. Length must be 20 character or less")
+        .test("is-unused", "${path} is not available", async (value) => {
             return !(await userExists(value));
         })
-        .required("Username is required."),
+        .required("Username is required"),
     password: yup
         .string()
         .test(
             "is-upper",
-            "Must contains at least 2 uppercase letters.",
+            "Must contains at least 2 uppercase letters",
             (value) => /(?=(?:.*[A-Z]){2,})/.test(value)
         )
         .test(
             "is-lower",
-            "Must contains at least 2 lowercase letters.",
+            "Must contains at least 2 lowercase letters",
             (value) => /(?=(?:.*[a-z]){2,})/.test(value)
         )
-        .test("is-number", "Must contains one digit.", (value) =>
+        .test("is-number", "Must contains one digit", (value) =>
             /(?=(?:.*\d){1,})/.test(value)
         )
-        .test("is-special", "Must contains one interpunction.", (value) =>
+        .test("is-special", "Must contains one interpunction", (value) =>
             /(?=(?:.*[!@#$%^&*()\-_=+{};:,<.>]){1,})/.test(value)
         )
-        .test("is-freq", "Letter occures too often.", (value) => {
+        .test("is-freq", "Letter occures too often", (value) => {
             if (value) {
                 return getMaxCount(value) <= value.length / 4;
             } else {
                 return false;
             }
         })
-        .min(12, "Too Short! Minimum length is 12 characters.")
+        .min(12, "Too Short! Minimum length is 12 characters")
         .required("Required"),
-    repeatPass: yup
+    passwordConfirm: yup
         .string()
-        .oneOf([yup.ref("password"), null], "Passwords must match"),
+        .required("Passwords is required")
+        .test("passwords-match", "Passwords must match", function (value) {
+            return this.parent.password === value;
+        }),
 });
 
 export const customerYupSchema = yup.object().shape({

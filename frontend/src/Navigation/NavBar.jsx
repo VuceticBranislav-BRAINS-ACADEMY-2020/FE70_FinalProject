@@ -1,54 +1,68 @@
-import React from "react";
-import { ButtonGroup, Button } from "@mui/material";
+/* Informations 
+╔═════════════════════════════════════════════════════════════════════════════╗
+║  v1.0  :  21-10-25                                                          ║
+║                                                                             ║
+║  Navigation bar containing buttons for adding new book, searching and       ║
+║  filtering books.                                                           ║
+║                                                                             ║
+╚════════════════════════════════════════════════════════════════════════════*/
+
+// Imports
+import React, { useContext } from "react";
 import { Link as RouterLink } from "react-router-dom";
-import Select from "@mui/material/Select";
-import MenuItem from "@mui/material/MenuItem";
+import { Button, Select, MenuItem, Box } from "@mui/material";
 import { filterContext } from "../Pages/Content";
-import { useContext } from "react";
+import { useAuth } from "../Authentication/ProvideAuth";
 
+// Component
 const NavBar = () => {
+    const [login, error, signin, signout] = useAuth();
     const { filter, setFilter } = useContext(filterContext);
-    const [value, setValue] = React.useState(0);
 
-    return (
-        <ButtonGroup
-            variant="contained"
-            aria-label="outlined primary button group"
-        >
+    return login ? (
+        <Box sx={{ minWidth: "100%" }}>
             <Button
+                sx={{ minHeight: "20px", maxHeight: "20px", minWidth: "20%" }}
                 size="small"
                 component={RouterLink}
                 to="/books/new"
-                variant="contained"
+                // variant="contained"
             >
-                New
+                New Book
             </Button>
             <Button
+                sx={{ minHeight: "20px", maxHeight: "20px", minWidth: "20%" }}
                 size="small"
                 component={RouterLink}
                 to="/allbooks"
-                variant="contained"
+                // variant="contained"
             >
                 All Books
             </Button>
             <Button
+                sx={{ minHeight: "20px", maxHeight: "20px", minWidth: "20%" }}
                 size="small"
                 component={RouterLink}
                 to="/search"
-                variant="contained"
             >
                 Search
             </Button>
             <Button
+                sx={{ minHeight: "20px", maxHeight: "20px", minWidth: "20%" }}
                 size="small"
                 component={RouterLink}
                 to="/searchauthor"
-                variant="contained"
+                // variant="outlined"
             >
                 Search by Author
             </Button>
             <Select
-                variant="outlined"
+                sx={{
+                    minHeight: "20px",
+                    maxHeight: "20px",
+                    minWidth: "20%",
+                }}
+                variant="standard"
                 onChange={(e) => setFilter(e.target.value)}
                 value={filter}
             >
@@ -59,8 +73,11 @@ const NavBar = () => {
                 <MenuItem value={"Mystery"}>Mystery</MenuItem>
                 <MenuItem value={"Horror"}>Horror</MenuItem>
             </Select>
-        </ButtonGroup>
+        </Box>
+    ) : (
+        ""
     );
 };
 
+// Exports
 export default NavBar;

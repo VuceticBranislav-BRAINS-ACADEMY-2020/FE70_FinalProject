@@ -2,16 +2,19 @@
 ╔═════════════════════════════════════════════════════════════════════════════╗
 ║  v1.0  :  21-10-22                                                          ║
 ║                                                                             ║
-║  Render SignIn button if user is not loged in.                              ║
+║  Render Log In box with username, password and submit button. Box use       ║
+║  formix in combination with MUI components. On successful submit            ║
+║  it redirects to page with all books.                                       ║
 ║                                                                             ║
 ╚════════════════════════════════════════════════════════════════════════════*/
 
 // Imports
 import { useHistory, useLocation } from "react-router-dom";
-import { Button, TextField } from "@mui/material";
+import { Button, TextField, Typography, Box } from "@mui/material";
 import { Formik } from "formik";
 import { useAuth } from "../../Authentication/ProvideAuth";
 
+// Component
 const LogInBox = () => {
     const history = useHistory();
     const location = useLocation();
@@ -19,8 +22,10 @@ const LogInBox = () => {
 
     let { from } = location.state || { from: { pathname: "/allbooks" } };
     return (
-        <div className="loginBox">
-            <h3>Login Forma</h3>
+        <Box width="500px">
+            <Typography mt={2} fontSize="large" textAlign="center">
+                Log In
+            </Typography>
             <Formik
                 initialValues={{ username: "", password: "" }}
                 onSubmit={(values, { setSubmitting }) => {
@@ -54,33 +59,44 @@ const LogInBox = () => {
                             variant="outlined"
                             name="username"
                             value={values.username}
-                            label="Korisničko ime"
+                            label="Username"
                             onChange={handleChange}
+                            sx={{ mt: 1 }}
+                            suggested="new-password"
+                            error={touched.username && Boolean(errors.username)}
                         />
-                        <br />
                         <TextField
                             fullWidth
                             variant="outlined"
                             name="password"
                             value={values.password}
-                            label="Lozinka"
+                            label="Password"
                             onChange={handleChange}
                             type="password"
+                            sx={{ mt: 1 }}
+                            suggested="new-password"
+                            error={touched.password && Boolean(errors.password)}
                         />
-                        <br />
                         <Button
                             fullWidth
                             variant="contained"
                             type="submit"
                             disabled={isSubmitting}
+                            sx={{ mt: 1 }}
                         >
                             Log in
                         </Button>
-                        <div>{error ? error : ""}</div>
+                        <Typography
+                            textAlign="center"
+                            color="red"
+                            fontSize="small"
+                        >
+                            {error ? error : ""}
+                        </Typography>
                     </form>
                 )}
             </Formik>
-        </div>
+        </Box>
     );
 };
 

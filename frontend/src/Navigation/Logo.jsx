@@ -11,7 +11,6 @@
 import { Box, Typography } from "@mui/material";
 import BlurOnIcon from "@mui/icons-material/BlurOn";
 import { useAuth } from "../Authentication/ProvideAuth";
-import { yellow } from "@mui/material/colors";
 import { useHistory } from "react-router-dom";
 
 // Logo elements that lead to welcom page if user is not loged in.
@@ -22,13 +21,11 @@ const Logo = () => {
     return (
         <Box
             sx={{
-                bgcolor: "primary.light",
                 margin: 1,
                 border: 1,
                 paddingX: 1.5,
                 paddingY: 1,
                 borderRadius: 3,
-                borderColor: "primary.dark",
                 display: "flex",
                 flexDirection: "row",
             }}
@@ -47,7 +44,7 @@ const Logo = () => {
                 history.push(location);
             }}
         >
-            <BlurOnIcon fontSize="large" sx={{ color: yellow[600], mr: 1.5 }} />
+            <BlurOnIcon fontSize="large" sx={{ color: "gold", mr: 1.5 }} />
             <Typography
                 variant="body1"
                 color="inherit"
@@ -58,7 +55,7 @@ const Logo = () => {
                     userSelect: "none",
                 }}
             >
-                Book Organiser
+                Booker
             </Typography>
         </Box>
     );

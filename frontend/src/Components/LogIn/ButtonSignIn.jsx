@@ -19,7 +19,13 @@ const ButtonSignIn = () => {
         return "";
     } else {
         return (
-            <Button variant="contained" component={RouterLink} to="/singin">
+            <Button
+                variant="contained"
+                component={RouterLink}
+                to="/singin"
+                sx={{ margin: 0.5 }}
+                fullWidth
+            >
                 Sign in
             </Button>
         );

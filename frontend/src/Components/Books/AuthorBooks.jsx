@@ -13,8 +13,8 @@ const AuthorBooks = ({ authors }) => {
     } else {
         return (
             <div>
-                {list.map((x) => (
-                    <div>{x.title} </div>
+                {list.map((x, id) => (
+                    <div key={id}>{x.title} </div>
                 ))}
             </div>
         );

@@ -1,77 +1,52 @@
+/* Informations 
+╔═════════════════════════════════════════════════════════════════════════════╗
+║  v1.0  :  21-10-21                                                          ║
+║                                                                             ║
+║  Main application.                                                          ║ 
+║                                                                             ║ 
+╚════════════════════════════════════════════════════════════════════════════*/
+
+// Imports
+import React from "react";
 import AdapterLuxon from "@mui/lab/AdapterLuxon";
 import LocalizationProvider from "@mui/lab/LocalizationProvider";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
-import { useAuth, ProvideAuth } from "./Authentication/ProvideAuth";
-import { ProvideUsers } from "./Authentication/ProvideUsers";
+import { ProvideAuth } from "./Authentication/ProvideAuth";
+import { ProvideRegister } from "./Authentication/ProvideRegister";
 import Footer from "./Navigation/Footer";
 import Header from "./Navigation/Header";
 import Content from "./Pages/Content";
 import Article from "./Navigation/Article";
-import LogInBox from "./Components/LogIn/PageLogIn";
+import LogInBox from "./Components/LogIn/LogInBox";
 import SingInBox from "./Components/SignIn/SingInBox";
 import PrivateRoute from "./Navigation/PrivateRoute";
-import { createTheme, ThemeProvider } from "@mui/material/styles";
-import { blue } from "@mui/material/colors";
-import { green } from "@mui/material/colors";
-import { red } from "@mui/material/colors";
-// remove ? npm install @mui/styles
-import { addCustomer } from "./Utils/accessHooks";
 import AllBookList from "./Pages/AllBookList";
 import BookSearchPage from "./Pages/BookSearchPage";
 import BookSearchPageByAuthor from "./Pages/BookSearchPageByAuthor";
 import BookDetailPage from "./Pages/BookDetailPage";
 import AddBookPage from "./Components/Books/AddBookPage";
 import Welcome from "./Pages/Welcome";
+import ToggleColorMode from "./Pages/ToggleColorMode";
+import NavBar from "./Navigation/NavBar";
 
-//https://mui.com/customization/default-theme/
-//https://bareynol.github.io/mui-theme-creator/
-const theme = createTheme({
-    palette: {
-        primary: {
-            // Purple and green play nicely together.
-            main: blue[500],
-        },
-        secondary: {
-            // This is green.A700 as hex.
-            main: "#11cb5f",
-        },
-        test11: {
-            main: "#ff0000",
-        },
-        card: {
-            main: "#64748B",
-            light: blue[100],
-            dark: blue[800],
-            contrastText: "#fff",
-        },
-    },
-    text: {
-        primary: {
-            main: green[500],
-        },
-        secondary: {
-            main: red[500],
-        },
-    },
-});
-
-function App() {
+export function App() {
     return (
-        <LocalizationProvider dateAdapter={AdapterLuxon}>
-            <ProvideAuth>
-                <ThemeProvider theme={theme}>
+        <ToggleColorMode>
+            <LocalizationProvider dateAdapter={AdapterLuxon}>
+                <ProvideAuth>
                     <Content>
                         <Router>
                             <Header />
+                            <NavBar />
                             <Article>
                                 <Switch>
                                     <Route exact path="/login">
                                         <LogInBox />
                                     </Route>
                                     <Route exact path="/singin">
-                                        <ProvideUsers>
+                                        <ProvideRegister>
                                             <SingInBox />
-                                        </ProvideUsers>
+                                        </ProvideRegister>
                                     </Route>
                                     <PrivateRoute path="/allbooks">
                                         <AllBookList />
@@ -99,9 +74,9 @@ function App() {
                             <Footer />
                         </Router>
                     </Content>
-                </ThemeProvider>
-            </ProvideAuth>
-        </LocalizationProvider>
+                </ProvideAuth>
+            </LocalizationProvider>
+        </ToggleColorMode>
     );
 }
 

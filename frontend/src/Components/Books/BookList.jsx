@@ -15,7 +15,7 @@ const BookList = ({ list, onDelete }) => {
         >
             {list.map((row) => (
                 <BookCard
-                    key={row.toString()}
+                    key={row.id.toString()}
                     bookData={row}
                     onDelete={onDelete}
                 />

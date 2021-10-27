@@ -1,17 +1,18 @@
+/* Informations 
+╔═════════════════════════════════════════════════════════════════════════════╗
+║  v1.0  :  21-10-26                                                          ║
+║                                                                             ║
+║  Container between header  and footer.                                      ║
+║                                                                             ║
+╚════════════════════════════════════════════════════════════════════════════*/
+
+// Imports
 import { Box } from "@mui/material";
 
+// Component
 const Article = ({ children, ...rest }) => {
-    return (
-        <Box
-            sx={{
-                // margin: "0px",
-                // padding: "0px",
-                flex: "1",
-            }}
-        >
-            {children}
-        </Box>
-    );
+    return <Box flex="1">{children}</Box>;
 };
 
+// Exports
 export default Article;

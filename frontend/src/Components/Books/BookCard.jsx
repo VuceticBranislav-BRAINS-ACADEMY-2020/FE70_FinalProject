@@ -69,8 +69,9 @@ const BookCard = ({ bookData, onDelete }) => {
                     Genre: {bookData.genre}
                 </Typography>
                 <Box>
-                    {bookData.authors.map((x) => (
+                    {bookData.authors.map((x, id) => (
                         <Link
+                            key={id.toString()}
                             component={RouterLink}
                             // to={`/books/${bookData.id}/view`}
                             to="#"
