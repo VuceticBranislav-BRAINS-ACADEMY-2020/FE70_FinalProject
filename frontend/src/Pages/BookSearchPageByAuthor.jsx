@@ -10,7 +10,7 @@
 // Imports
 import React, { useState } from "react";
 import {
-    deleteCustomer,
+    deleteBook,
     usePagedSearchBookListByAuthor,
 } from "../Utils/accessHooks";
 import BookList from "../Components/Books/BookList";
@@ -101,7 +101,7 @@ const BookSearchPageByAuthorParam = ({ initialQuery }) => {
                 <BookList
                     list={list}
                     onDelete={(id) => {
-                        deleteCustomer(id, login);
+                        deleteBook(id, login);
                         reload();
                     }}
                 />

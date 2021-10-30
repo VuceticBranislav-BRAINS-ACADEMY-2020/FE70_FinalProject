@@ -9,7 +9,7 @@
 // Imports
 import BookDetail from "./BookDetail";
 import { useAuth } from "../../Authentication/ProvideAuth";
-import { addCustomer } from "../../Utils/accessHooks";
+import { addBook } from "../../Utils/accessHooks";
 
 // Component
 const AddBookPage = () => {
@@ -17,7 +17,7 @@ const AddBookPage = () => {
     return (
         <BookDetail
             startingMode="create"
-            action={(customer) => addCustomer(customer, login)}
+            action={(book) => addBook(book, login)}
         />
     );
 };

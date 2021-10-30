@@ -63,11 +63,11 @@ const bookSchema = yup.object().shape({
         .max(50, "Book title too long. Maximum 50 characters.")
         .ensure(),
     isbn: yup
-        .number()
-        .typeError("ISBN must be a number")
+        .string()
         .required("Enter ISBN number")
+        .length(12, "ISBN must have 12 digits")
         .test("ISBN-length", "ISBN must have 12 digits", (num) =>
-            /^(\d{12})$/.test(num)
+            /^\d{12}$/.test(num)
         ),
     publishDate: yup
         .date()

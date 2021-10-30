@@ -9,7 +9,7 @@
 
 // Imports
 import React, { useState } from "react";
-import { deleteCustomer, usePagedSearchBookList } from "../Utils/accessHooks";
+import { deleteBook, usePagedSearchBookList } from "../Utils/accessHooks";
 import BookList from "../Components/Books/BookList";
 import TablePagination from "@mui/material/TablePagination";
 import { Button } from "@mui/material";
@@ -97,7 +97,7 @@ const BookSearchPageParam = ({ initialQuery }) => {
                 <BookList
                     list={list}
                     onDelete={(id) => {
-                        deleteCustomer(id, login);
+                        deleteBook(id, login);
                         reload();
                     }}
                 />

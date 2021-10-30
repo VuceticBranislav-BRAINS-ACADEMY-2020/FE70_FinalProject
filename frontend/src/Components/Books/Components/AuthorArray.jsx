@@ -83,7 +83,7 @@ function ChipsArray({
                     </InputLabel>
 
                     <List
-                        dense="true"
+                        dense={true}
                         sx={{
                             overflow: "auto",
                             maxHeight: 200,
@@ -128,7 +128,7 @@ function ChipsArray({
                         variant="outlined"
                         error={error}
                         helperText={helperText}
-                        InputProps={inputProperties}
+                        inputProps={inputProperties}
                         onKeyDown={(e) => keyPress(e)}
                     />
                     <Box
@@ -146,7 +146,6 @@ function ChipsArray({
                             return (
                                 <ListItemChip key={id.toString()}>
                                     <Chip
-                                        InputProps={inputProperties}
                                         label={x.label}
                                         onDelete={
                                             inputProperties.disabled === true

@@ -10,25 +10,25 @@
 import React from "react";
 import { useParams } from "react-router-dom";
 import { LinearProgress } from "@mui/material";
-import { useCustomer, updateCustomer } from "../Utils/accessHooks";
+import { useBook, updateBook } from "../Utils/accessHooks";
 import BookDetail from "../Components/Books/BookDetail";
 import { useAuth } from "../Authentication/ProvideAuth";
 
 // Component
 const BookDetailPage = () => {
     const { cid, operation } = useParams();
-    const [customer, loading] = useCustomer(cid);
+    const [book, loading] = useBook(cid);
     const [login] = useAuth();
     if (loading) {
         return <LinearProgress />;
     } else {
         return (
             <BookDetail
-                customer={customer}
+                book={book}
                 startingMode={operation}
                 action={
                     operation === "edit"
-                        ? (customer) => updateCustomer(customer, login)
+                        ? (book) => updateBook(book, login)
                         : undefined
                 }
             />

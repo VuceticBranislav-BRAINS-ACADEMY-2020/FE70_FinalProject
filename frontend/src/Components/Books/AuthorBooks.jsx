@@ -44,7 +44,7 @@ const AuthorBooks = ({ authors }) => {
                 <InputLabel sx={{ fontSize: "0.8rem" }}>
                     List of Book from Authors:
                 </InputLabel>
-                <List dense="true" sx={{ overflow: "auto", maxHeight: 200 }}>
+                <List dense={true} sx={{ overflow: "auto", maxHeight: 200 }}>
                     {list.map((x, id) => (
                         <ListItem key={id.toString()}>
                             <Link

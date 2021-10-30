@@ -313,7 +313,7 @@ export const usePagedSearchBookListByAuthor = (
     ];
 };
 
-export const deleteCustomer = async (
+export const deleteBook = async (
     id,
     login,
     url = "http://localhost:3081/app/books"
@@ -329,26 +329,26 @@ export const deleteCustomer = async (
     else return [false, data.body];
 };
 
-export const updateCustomer = async (
-    customer,
+export const updateBook = async (
+    book,
     login,
     url = "http://localhost:3081/app/books"
 ) => {
-    const resp = await fetch(`${url}/${customer.id}`, {
+    const resp = await fetch(`${url}/${book.id}`, {
         method: "PUT",
         headers: {
             "Content-Type": "application/json",
             Authorization: `Bearer ${login.jwt}`,
         },
-        body: JSON.stringify(customer),
+        body: JSON.stringify(book),
     });
     const data = await resp.json();
     if (data.status === "ok") return [true, ""];
     else return [false, data.body];
 };
 
-export const addCustomer = async (
-    customer,
+export const addBook = async (
+    book,
     login,
     url = "http://localhost:3081/app/books"
 ) => {
@@ -358,15 +358,15 @@ export const addCustomer = async (
             "Content-Type": "application/json",
             Authorization: `Bearer ${login.jwt}`,
         },
-        body: JSON.stringify(customer),
+        body: JSON.stringify(book),
     });
     const data = await resp.json();
     if (data.status === "ok") return [true, ""];
     else return [false, data.body];
 };
 
-export const useCustomer = (id, url = "http://localhost:3081/app/book") => {
-    const [customer, setCustomer] = useState(null);
+export const useBook = (id, url = "http://localhost:3081/app/book") => {
+    const [book, setBook] = useState(null);
     const [loading, setLoading] = useState(true);
     const [login] = useAuth();
 
@@ -381,13 +381,13 @@ export const useCustomer = (id, url = "http://localhost:3081/app/book") => {
             .then((resp) => resp.json())
             .then((data) => {
                 if (data.status === "ok") {
-                    setCustomer(data.body);
+                    setBook(data.body);
                     setLoading(false);
                 }
             });
     }, []);
 
-    return [customer, loading];
+    return [book, loading];
 };
 
 export const useBooksByAuthorList = (

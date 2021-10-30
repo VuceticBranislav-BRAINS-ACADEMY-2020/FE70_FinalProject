@@ -8,7 +8,7 @@
 
 // Imports
 import React from "react";
-import { usePagedBookList, deleteCustomer } from "../Utils/accessHooks";
+import { usePagedBookList, deleteBook } from "../Utils/accessHooks";
 import BookList from "../Components/Books/BookList";
 import TablePagination from "@mui/material/TablePagination";
 import { useAuth } from "../Authentication/ProvideAuth";
@@ -43,7 +43,7 @@ const BookListPage = () => {
                 <BookList
                     list={list}
                     onDelete={(id) => {
-                        deleteCustomer(id, login);
+                        deleteBook(id, login);
                         reload();
                     }}
                 />

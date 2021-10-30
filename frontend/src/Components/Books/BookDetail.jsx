@@ -31,7 +31,7 @@ import ChipsArray from "./Components/AuthorArray";
 import { DateTime } from "luxon";
 
 // Component
-const BookDetail = ({ startingMode, customer, action }) => {
+const BookDetail = ({ startingMode, book, action }) => {
     const [mode, setMode] = useState(startingMode);
     const history = useHistory();
     let message = "";
@@ -59,7 +59,7 @@ const BookDetail = ({ startingMode, customer, action }) => {
 
             <Formik
                 initialValues={{
-                    ...customer,
+                    ...book,
                     available: "true",
                     publishDate: toStandardTime(DateTime.now()),
                 }}
@@ -95,7 +95,7 @@ const BookDetail = ({ startingMode, customer, action }) => {
                                 error={touched.title && Boolean(errors.title)}
                                 helperText={touched.title && errors.title}
                                 variant="outlined"
-                                InputProps={inputProperties}
+                                inputProps={inputProperties}
                             />
                             {hideID || (
                                 <TextField
@@ -108,7 +108,7 @@ const BookDetail = ({ startingMode, customer, action }) => {
                                     onBlur={handleBlur}
                                     error={touched.id && Boolean(errors.id)}
                                     helperText={touched.id && errors.id}
-                                    InputProps={{ disabled: true }}
+                                    inputProps={{ disabled: true }}
                                     variant="outlined"
                                 />
                             )}
@@ -130,7 +130,7 @@ const BookDetail = ({ startingMode, customer, action }) => {
                                     error={touched.isbn && Boolean(errors.isbn)}
                                     helperText={touched.isbn && errors.isbn}
                                     variant="outlined"
-                                    InputProps={inputProperties}
+                                    inputProps={inputProperties}
                                 />
 
                                 <TextField
@@ -147,7 +147,7 @@ const BookDetail = ({ startingMode, customer, action }) => {
                                     }
                                     helperText={touched.pages && errors.pages}
                                     variant="outlined"
-                                    InputProps={inputProperties}
+                                    inputProps={inputProperties}
                                 />
                                 <TextField
                                     fullWidth
@@ -164,7 +164,7 @@ const BookDetail = ({ startingMode, customer, action }) => {
                                     }
                                     helperText={touched.rating && errors.rating}
                                     variant="outlined"
-                                    InputProps={inputProperties}
+                                    inputProps={inputProperties}
                                 />
 
                                 <InputLabel
@@ -182,7 +182,7 @@ const BookDetail = ({ startingMode, customer, action }) => {
                                     label="Genre"
                                     onChange={handleChange}
                                     onBlur={handleBlur}
-                                    InputProps={inputProperties}
+                                    inputProps={inputProperties}
                                     disabled={inputProperties.disabled}
                                     variant="outlined"
                                     error={
@@ -241,14 +241,16 @@ const BookDetail = ({ startingMode, customer, action }) => {
                                             margin="normal"
                                             name="available"
                                             value={values.available}
-                                            checked={values.available}
+                                            checked={
+                                                values.available ? true : false
+                                            }
                                             onChange={handleChange}
                                             onBlur={handleBlur}
                                             error={
                                                 touched.available &&
                                                 Boolean(errors.available)
                                             }
-                                            InputProps={inputProperties}
+                                            inputProps={inputProperties}
                                             disabled={inputProperties.disabled}
                                         />
                                     }
@@ -269,11 +271,7 @@ const BookDetail = ({ startingMode, customer, action }) => {
                                     }
                                     fieldSetter={setFieldValue}
                                 ></ChipsArray>
-                                {/* <span>
-                                    {touched.authors && Boolean(errors.authors)
-                                        ? errors.authors
-                                        : ""}
-                                </span> */}
+
                                 {mode === "view" ? (
                                     <AuthorBooks
                                         authors={values.authors}
@@ -306,7 +304,7 @@ const BookDetail = ({ startingMode, customer, action }) => {
 };
 
 BookDetail.defaultProps = {
-    customer: {
+    book: {
         id: null,
         title: "",
         isbn: "",
