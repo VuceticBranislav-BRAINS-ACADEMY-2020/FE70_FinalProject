@@ -1,23 +1,23 @@
-import React, { useState, useMemo, useRef, useEffect } from "react";
+import React, { useState } from "react";
 import {
-    usePagedCustomerList,
     deleteCustomer,
     usePagedSearchBookListByAuthor,
 } from "../Utils/accessHooks";
 import BookList from "../Components/Books/BookList";
 import TablePagination from "@mui/material/TablePagination";
 import { Button } from "@mui/material";
-import { Link as RouterLink } from "react-router-dom";
 import { TextField } from "@mui/material";
 import { Box } from "@mui/material";
 import { useAuth } from "../Authentication/ProvideAuth";
-
+import { useParams, useHistory } from "react-router-dom";
 import { filterContext } from "./Content";
 import { useContext } from "react";
+import LinearProgress from "@mui/material/LinearProgress";
 
-const BookSearchPageByAuthor = () => {
-    const [query, setQuery] = useState("");
-    const [searchQuery, setSearchQuery] = useState("");
+const BookSearchPageByAuthorParam = ({ initialQuery }) => {
+    const [query, setQuery] = useState(initialQuery);
+    const [searchQuery, setSearchQuery] = useState(initialQuery);
+    const history = useHistory();
     const [login] = useAuth();
     const { filter, setFilter } = useContext(filterContext);
     const [
@@ -34,9 +34,28 @@ const BookSearchPageByAuthor = () => {
         pageSize,
         setPageSize,
         reload,
-    ] = usePagedSearchBookListByAuthor(10, searchQuery, filter);
+    ] = usePagedSearchBookListByAuthor(12, searchQuery, filter);
+
+    const keyPress = (e) => {
+        if (e.code === "Enter" || e.code === "NumpadEnter") {
+            e.preventDefault();
+            console.log("yay");
+            searchPress();
+        }
+    };
+
+    const searchPress = (e) => {
+        console.log("nei");
+        setSearchQuery(query);
+        const location = {
+            pathname: "/searchauthor/" + query,
+            state: { fromDashboard: true },
+        };
+        history.replace(location);
+    };
+
     if (loading) {
-        return <h3>Loading...</h3>;
+        return <LinearProgress />;
     } else {
         return (
             <div>
@@ -44,35 +63,29 @@ const BookSearchPageByAuthor = () => {
                     sx={{
                         display: "flex",
                         flexDirection: "row",
-                        padding: "10px",
-                        alignItems: "baseline",
+                        alignItems: "center",
                     }}
                 >
-                    {/* <Button
-                        component={RouterLink}
-                        to="/customer/new"
-                        variant="contained"
-                    >
-                        Dodaj
-                    </Button> */}
                     <TextField
-                        sx={{ flexGrow: 1, marginLeft: "60px" }}
+                        sx={{ flexGrow: 1, marginLeft: "18px" }}
                         margin="normal"
                         name="search"
-                        label="Pretraga"
+                        label="Search"
                         value={query}
                         onChange={(e) => {
                             const val = e.target.value;
                             setQuery(val);
                         }}
+                        onKeyDown={(e) => keyPress(e)}
                         variant="outlined"
+                        size="small"
                     />
                     <Button
-                        sx={{ marginLeft: "20px" }}
+                        sx={{ mx: "20px", mb: "10px", mt: "15px" }}
                         variant="contained"
-                        onClick={() => setSearchQuery(query)}
+                        onClick={(e) => searchPress(e)}
                     >
-                        Pokreni pretragu
+                        Search
                     </Button>
                 </Box>
                 <BookList
@@ -92,15 +105,23 @@ const BookSearchPageByAuthor = () => {
                         setPageSize(parseInt(e.target.value, 10));
                     }}
                     labelDisplayedRows={({ from, to, count, page }) =>
-                        `Prikazujem stranicu ${
-                            page + 1
-                        } (${from}-${to} od ukupno ${count})`
+                        `${from}-${to} of ${count}`
                     }
-                    labelRowsPerPage="Redova po stranici: "
+                    rowsPerPageOptions={[12, 24, 48, 96]}
+                    labelRowsPerPage="Rows per page:"
                 />
             </div>
         );
     }
+};
+
+BookSearchPageByAuthorParam.defaultProps = {
+    initialQuery: "",
+};
+
+const BookSearchPageByAuthor = () => {
+    const { query } = useParams();
+    return <BookSearchPageByAuthorParam initialQuery={query} />;
 };
 
 export default BookSearchPageByAuthor;

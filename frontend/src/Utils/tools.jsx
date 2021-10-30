@@ -3,23 +3,25 @@ import React from "react";
 import { useFetch } from "react-async";
 import { Paper, Typography, Box } from "@mui/material";
 
-// const checkGenre = (genre) => {
-//     if (genre === "Science Fiction") {
-//         return sf;
-//     } else if (genre === "Fantasy") {
-//         return f;
-//     } else if (genre === "Computing") {
-//         return c;
-//     } else if (genre === "Mystery") {
-//         return m;
-//     } else if (genre === "Horror") {
-//         return h;
-//     } else {
-//         return books;
-//     }
-// };
+const userExists = async (username) => {
+    if (username === undefined) return false;
+    return await fetch("http://localhost:3081/app/checkUsername/" + username, {
+        method: "GET",
+    })
+        .then((response) => response.json())
+        .then((data) => {
+            if (data.status !== "ok") {
+                return false;
+            } else {
+                return data.body;
+            }
+        })
+        .catch((err) => {
+            return false;
+        });
+};
 
-function getMaxCount(str) {
+const getMaxCount = (str) => {
     var Obj = {}; //Define an empty object
     for (let i = 0; i < str.length; i++) {
         if (Obj[str.charAt(i)]) {
@@ -37,7 +39,7 @@ function getMaxCount(str) {
         }
     }
     return num;
-}
+};
 
 const setMeter = (
     pass1,
@@ -63,4 +65,4 @@ const setMeter = (
     setMeterValue(points);
 };
 
-export { setMeter };
+export { setMeter, getMaxCount, userExists };

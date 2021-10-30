@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import Box from "@mui/material/Box";
 import IconButton from "@mui/material/IconButton";
 import Input from "@mui/material/Input";
@@ -72,3 +72,59 @@ const InputPassword = ({ name, value }) => {
 export default InputPassword;
 
 const fieldName = "stars";
+
+// const useZaposleni = (url) => {
+//     const [zaposleni, setZaposleni] = useState([]);
+//     useEffect(async () => {
+//         try {
+//             // fali ovde
+//         } finally {
+//             console.log("Gotovo!");
+//         }
+//         return () => {
+//             console.log("Cleanup!");
+//         };
+//     }, [url]);
+
+//     return zaposleni;
+// };
+
+// const FetchTest2 = (props) => {
+//     const zaposleni = useZaposleni(props.url);
+//     return (
+//         <div>
+//             {zaposleni.map((it) => (
+//                 <span>
+//                     {it.ime}
+//                     <br />
+//                 </span>
+//             ))}
+//         </div>
+//     );
+// };
+
+// export { FetchTest2 };
+
+const useCheckServer = (url) => {
+    const [result, setResult] = useState([]);
+    useEffect(async () => {
+        try {
+            let resp = await fetch(url);
+            let data = await resp.json();
+            setResult(true);
+        } catch (err) {
+            setResult(false);
+        } finally {
+        }
+    }, [url]);
+
+    return result;
+};
+
+const PingServer = () => {
+    const resp = useCheckServer("http://localhost:3081/app/checkUsername/s");
+    console.log(resp);
+    return <div>{resp ? "Radi" : "Ne radi"}</div>;
+};
+
+// export { PingServer };

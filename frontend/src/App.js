@@ -51,10 +51,10 @@ export function App() {
                                     <PrivateRoute path="/allbooks">
                                         <AllBookList />
                                     </PrivateRoute>
-                                    <PrivateRoute path="/search/:q?">
+                                    <PrivateRoute path="/search/:query?">
                                         <BookSearchPage />
                                     </PrivateRoute>
-                                    <PrivateRoute exact path="/searchauthor">
+                                    <PrivateRoute path="/searchauthor/:query?">
                                         <BookSearchPageByAuthor />
                                     </PrivateRoute>
                                     <PrivateRoute path="/books/new">

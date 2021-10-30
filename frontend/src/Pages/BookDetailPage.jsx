@@ -3,14 +3,14 @@ import { useParams } from "react-router-dom";
 import { useCustomer, updateCustomer } from "../Utils/accessHooks";
 import BookDetail from "../Components/Books/BookDetail";
 import { useAuth } from "../Authentication/ProvideAuth";
-import { CircularProgress } from "@mui/material";
+import { LinearProgress } from "@mui/material";
 
 const BookDetailPage = () => {
     const { cid, operation } = useParams();
     const [customer, loading] = useCustomer(cid);
     const [login] = useAuth();
     if (loading) {
-        return <CircularProgress />;
+        return <LinearProgress />;
     } else {
         return (
             <BookDetail

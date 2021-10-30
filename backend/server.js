@@ -355,3 +355,7 @@ app.post("/app/books/searchByMultipleAuthor/:from/:to", async (req, res) => {
     };
     res.send(took(obj));
 });
+
+app.get("/app/status", async (req, res) => {
+    res.send(took("v0.1myserver"));
+});

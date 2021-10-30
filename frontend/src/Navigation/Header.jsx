@@ -7,7 +7,7 @@
 ╚════════════════════════════════════════════════════════════════════════════*/
 
 // Imports
-import { AppBar, Box, Container, Toolbar, Typography } from "@mui/material";
+import { AppBar, Box, Typography } from "@mui/material";
 import AccountBoxIcon from "@mui/icons-material/AccountBox";
 import Logo from "./Logo";
 import ButtonSignOut from "../Components/SignIn/ButtonSignOut";
@@ -20,39 +20,37 @@ const Header = () => {
 
     return (
         <AppBar position="static" color="primary" mt={0.5}>
-            <Container>
-                <Toolbar variant="dense">
-                    <Logo />
-                    <span style={{ flexGrow: 1 }} />
-                    {login ? (
-                        <Box display="flex" flexDirection="row">
-                            <Box display="flex" flexDirection="column">
-                                <Box
-                                    display="flex"
-                                    flexDirection="row"
-                                    justifyContent="flex-end"
+            <Box display="flex" flexDirection="row">
+                <Logo />
+                <span style={{ flexGrow: 1 }} />
+                {login ? (
+                    <Box display="flex" flexDirection="row">
+                        <Box display="flex" flexDirection="column">
+                            <Box
+                                display="flex"
+                                flexDirection="row"
+                                justifyContent="flex-end"
+                            >
+                                <Typography
+                                    mr="5px"
+                                    mt="3px"
+                                    color="gold"
+                                    textAlign="center"
                                 >
-                                    <Typography
-                                        mr="5px"
-                                        mt="3px"
-                                        color="gold"
-                                        textAlign="center"
-                                    >
-                                        {login.username}
-                                    </Typography>
-                                </Box>
-                                <ButtonSignOut />
+                                    {login.username}
+                                </Typography>
                             </Box>
-                            <AccountBoxIcon
-                                sx={{ fontSize: "64px", color: "gold" }}
-                            />
+                            <ButtonSignOut />
                         </Box>
-                    ) : (
-                        ""
-                    )}
-                    <ThemeButton />
-                </Toolbar>
-            </Container>
+                        <AccountBoxIcon
+                            sx={{ fontSize: "64px", color: "gold" }}
+                        />
+                    </Box>
+                ) : (
+                    ""
+                )}
+                <ThemeButton />
+            </Box>
         </AppBar>
     );
 };

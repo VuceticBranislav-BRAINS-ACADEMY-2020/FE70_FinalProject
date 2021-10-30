@@ -11,7 +11,11 @@ import { Box } from "@mui/material";
 
 // Component
 const Article = ({ children, ...rest }) => {
-    return <Box flex="1">{children}</Box>;
+    return (
+        <Box flex="1" sx={{ minWidth: "100%" }}>
+            {children}
+        </Box>
+    );
 };
 
 // Exports

@@ -5,7 +5,7 @@ import TablePagination from "@mui/material/TablePagination";
 import { Button, ButtonGroup } from "@mui/material";
 import { Link as RouterLink } from "react-router-dom";
 import { useAuth } from "../Authentication/ProvideAuth";
-
+import LinearProgress from "@mui/material/LinearProgress";
 import { filterContext } from "./Content";
 import { useContext } from "react";
 
@@ -25,11 +25,10 @@ const AllBookList = () => {
         pageSize,
         setPageSize,
         reload,
-    ] = usePagedBookList(10, filter);
+    ] = usePagedBookList(12, filter);
     const [login] = useAuth();
-
     if (loading) {
-        return <h3>Loading...</h3>;
+        return <LinearProgress />;
     } else {
         return (
             <div>
@@ -50,10 +49,9 @@ const AllBookList = () => {
                         setPageSize(parseInt(e.target.value, 10));
                     }}
                     labelDisplayedRows={({ from, to, count, page }) =>
-                        `Prikazujem stranicu ${
-                            page + 1
-                        } (${from}-${to} od ukupno ${count})`
+                        `${from}-${to} of ${count}`
                     }
+                    rowsPerPageOptions={[12, 24, 48, 96]}
                     labelRowsPerPage="Redova po stranici: "
                 />
             </div>

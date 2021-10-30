@@ -22,7 +22,7 @@ const LogInBox = () => {
 
     let { from } = location.state || { from: { pathname: "/allbooks" } };
     return (
-        <Box width="500px">
+        <Box display="flex" flexDirection="column" alignItems="center">
             <Typography mt={2} fontSize="large" textAlign="center">
                 Log In
             </Typography>

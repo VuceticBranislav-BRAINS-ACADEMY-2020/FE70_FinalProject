@@ -1,43 +1,6 @@
 import * as yup from "yup";
-
-const userExists = async (username) => {
-    if (username === undefined) return false;
-    return await fetch("http://localhost:3081/app/checkUsername/" + username, {
-        method: "GET",
-    })
-        .then((response) => response.json())
-        .then((data) => {
-            if (data.status !== "ok") {
-                return false;
-            } else {
-                return data.body;
-            }
-        })
-        .catch((err) => {
-            return false;
-        });
-};
-
-// duplicated
-function getMaxCount(str) {
-    var Obj = {}; //Define an empty object
-    for (let i = 0; i < str.length; i++) {
-        if (Obj[str.charAt(i)]) {
-            Obj[str.charAt(i)]++;
-        } else {
-            Obj[str.charAt(i)] = 1;
-        }
-    }
-    let num = 0;
-    let char = "";
-    for (var key in Obj) {
-        if (Obj[key] > num) {
-            num = Obj[key];
-            char = key;
-        }
-    }
-    return num;
-}
+import { DateTime } from "luxon";
+import { getMaxCount, userExists } from "../Utils/tools";
 
 export const signupSchema = yup.object().shape({
     username: yup
@@ -78,19 +41,19 @@ export const signupSchema = yup.object().shape({
     passwordConfirm: yup
         .string()
         .required("Passwords is required")
-        .test("passwords-match", "Passwords must match", function (value) {
+        .test("passwords-match", "Password must match", function (value) {
             return this.parent.password === value;
         }),
 });
 
-export const customerYupSchema = yup.object().shape({
+export const bookSchema = yup.object().shape({
     id: yup.mixed().nullable(true).default(null),
-    title: yup.string().ensure().required("Mora se uneti title"),
+    title: yup.string().ensure().required("Enter book name"),
     isbn: yup.string().ensure().required("Mora se uneti isbn"),
     publishDate: yup
         .date()
-        // .max(DateTime.now(), "Ne može datum skoriji od danas")
-        .required("Mora se uneti"),
+        .max(DateTime.now(), "Date can not be in future")
+        .typeError("Must be a date"),
     authors: yup
         .array()
         .of(yup.string().ensure().required("Mora se uneti autor")),

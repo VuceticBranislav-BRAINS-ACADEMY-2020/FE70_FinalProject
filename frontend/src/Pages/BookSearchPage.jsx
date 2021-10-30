@@ -10,13 +10,15 @@ import { Button } from "@mui/material";
 import { TextField } from "@mui/material";
 import { Box } from "@mui/material";
 import { useAuth } from "../Authentication/ProvideAuth";
-
+import { useParams, useHistory } from "react-router-dom";
 import { filterContext } from "./Content";
 import { useContext } from "react";
+import LinearProgress from "@mui/material/LinearProgress";
 
-const BookSearchPage = () => {
-    const [query, setQuery] = useState("");
-    const [searchQuery, setSearchQuery] = useState("");
+const BookSearchPageParam = ({ initialQuery }) => {
+    const [query, setQuery] = useState(initialQuery);
+    const [searchQuery, setSearchQuery] = useState(initialQuery);
+    const history = useHistory();
     const [login] = useAuth();
     const { filter, setFilter } = useContext(filterContext);
     const [
@@ -33,9 +35,28 @@ const BookSearchPage = () => {
         pageSize,
         setPageSize,
         reload,
-    ] = usePagedSearchBookList(10, searchQuery, filter);
+    ] = usePagedSearchBookList(12, searchQuery, filter);
+
+    const keyPress = (e) => {
+        if (e.code === "Enter" || e.code === "NumpadEnter") {
+            e.preventDefault();
+            console.log("yay");
+            searchPress();
+        }
+    };
+
+    const searchPress = (e) => {
+        console.log("nei");
+        setSearchQuery(query);
+        const location = {
+            pathname: "/search/" + query,
+            state: { fromDashboard: true },
+        };
+        history.replace(location);
+    };
+
     if (loading) {
-        return <h3>Loading...</h3>;
+        return <LinearProgress />;
     } else {
         return (
             <div>
@@ -43,35 +64,29 @@ const BookSearchPage = () => {
                     sx={{
                         display: "flex",
                         flexDirection: "row",
-                        padding: "10px",
-                        alignItems: "baseline",
+                        alignItems: "centar",
                     }}
                 >
-                    {/* <Button
-                        component={RouterLink}
-                        to="/customer/new"
-                        variant="contained"
-                    >
-                        Dodaj
-                    </Button> */}
                     <TextField
-                        sx={{ flexGrow: 1, marginLeft: "60px" }}
+                        sx={{ flexGrow: 1, marginLeft: "18px" }}
                         margin="normal"
                         name="search"
-                        label="Pretraga"
+                        label="Search"
                         value={query}
                         onChange={(e) => {
                             const val = e.target.value;
                             setQuery(val);
                         }}
+                        onKeyDown={(e) => keyPress(e)}
                         variant="outlined"
+                        size="small"
                     />
                     <Button
-                        sx={{ marginLeft: "20px" }}
+                        sx={{ mx: "20px", mb: "10px", mt: "15px" }}
                         variant="contained"
-                        onClick={() => setSearchQuery(query)}
+                        onClick={(e) => searchPress(e)}
                     >
-                        Pokreni pretragu
+                        Search
                     </Button>
                 </Box>
                 <BookList
@@ -91,15 +106,23 @@ const BookSearchPage = () => {
                         setPageSize(parseInt(e.target.value, 10));
                     }}
                     labelDisplayedRows={({ from, to, count, page }) =>
-                        `Prikazujem stranicu ${
-                            page + 1
-                        } (${from}-${to} od ukupno ${count})`
+                        `${from}-${to} of ${count}`
                     }
-                    labelRowsPerPage="Redova po stranici: "
+                    rowsPerPageOptions={[12, 24, 48, 96]}
+                    labelRowsPerPage="Rows per page:"
                 />
             </div>
         );
     }
+};
+
+BookSearchPageParam.defaultProps = {
+    initialQuery: "",
+};
+
+const BookSearchPage = () => {
+    const { query } = useParams();
+    return <BookSearchPageParam initialQuery={query} />;
 };
 
 export default BookSearchPage;

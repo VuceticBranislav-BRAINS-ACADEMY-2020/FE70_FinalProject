@@ -1,10 +1,11 @@
 import React from "react";
+import { Link as RouterLink } from "react-router-dom";
 import { styled } from "@mui/material/styles";
-import Chip from "@mui/material/Chip";
+import { Chip, Box, InputLabel, Link, List, ListItem } from "@mui/material";
 import Paper from "@mui/material/Paper";
 import TextField from "@mui/material/TextField";
 
-const ListItem = styled("li")(({ theme }) => ({
+const ListItemChip = styled("li")(({ theme }) => ({
     margin: theme.spacing(0.5),
 }));
 
@@ -32,7 +33,6 @@ function ChipsArray({
     };
 
     const keyPress = (e) => {
-        console.log(e.code);
         if (e.code === "Enter" || e.code === "NumpadEnter") {
             e.preventDefault();
             items.push(e.target.value);
@@ -45,44 +45,99 @@ function ChipsArray({
         <Paper
             sx={{
                 display: "flex",
-                justifyContent: "center",
+                flexDirection: "column",
+                justifyContent: "flex-start",
                 flexWrap: "wrap",
-                listStyle: "none",
+                flexDirection: "column",
                 p: 0.5,
-                m: 0,
+                my: 0.5,
+                mx: 1,
+                width: "280px",
+                maxWidth: "280px",
             }}
-            component="ul"
         >
-            <TextField
-                margin="normal"
-                name="addButton"
-                // value={addButton}
-                // onChange={handleChange}
-                // onBlur={handleBlur}
-                variant="outlined"
-                InputProps={inputProperties}
-                sx={
-                    inputProperties.readOnly
-                        ? { visibility: "hidden" }
-                        : { visibility: "visible" }
-                }
-                onKeyDown={(e) => keyPress(e)}
-            />
-            {chipData.map((data) => {
-                return (
-                    <ListItem key={data.key}>
-                        <Chip
-                            InputProps={inputProperties}
-                            label={data.label}
-                            onDelete={
-                                inputProperties.readOnly === true
-                                    ? undefined
-                                    : handleDelete(data)
-                            }
-                        />
-                    </ListItem>
-                );
-            })}
+            {inputProperties.readOnly ? (
+                <Box>
+                    <InputLabel sx={{ fontSize: "0.8rem" }}>
+                        List of Authors:
+                    </InputLabel>
+
+                    <List
+                        dense="true"
+                        sx={{
+                            overflow: "auto",
+                            maxHeight: 200,
+                        }}
+                    >
+                        {chipData.map((x, id) => {
+                            return (
+                                <ListItem key={id.toString()}>
+                                    <Link
+                                        key={id.toString()}
+                                        component={RouterLink}
+                                        to={`/searchauthor/${x.label}`}
+                                        underline="hover"
+                                        sx={{ fontSize: 14, m: -0.5 }}
+                                    >
+                                        {x.label}
+                                    </Link>
+                                </ListItem>
+                            );
+                        })}
+                    </List>
+                </Box>
+            ) : (
+                <Box
+                    sx={{
+                        display: "flex",
+                        justifyContent: "center",
+                        flexWrap: "wrap",
+                        listStyle: "none",
+                        flexDirection: "row",
+                        p: 0.5,
+                        m: 0,
+                    }}
+                >
+                    <InputLabel sx={{ fontSize: "0.8rem" }}>
+                        List of Authors:
+                    </InputLabel>
+                    <TextField
+                        margin="dense"
+                        name="addButton"
+                        label="Add Author"
+                        variant="outlined"
+                        InputProps={inputProperties}
+                        onKeyDown={(e) => keyPress(e)}
+                    />
+                    <Box
+                        sx={{
+                            display: "flex",
+                            justifyContent: "center",
+                            flexWrap: "wrap",
+                            listStyle: "none",
+                            flexDirection: "row",
+                            p: 0.5,
+                            m: 0,
+                        }}
+                    >
+                        {chipData.map((x, id) => {
+                            return (
+                                <ListItemChip key={id.toString()}>
+                                    <Chip
+                                        InputProps={inputProperties}
+                                        label={x.label}
+                                        onDelete={
+                                            inputProperties.readOnly === true
+                                                ? undefined
+                                                : handleDelete(x)
+                                        }
+                                    />
+                                </ListItemChip>
+                            );
+                        })}
+                    </Box>
+                </Box>
+            )}
         </Paper>
     );
 }

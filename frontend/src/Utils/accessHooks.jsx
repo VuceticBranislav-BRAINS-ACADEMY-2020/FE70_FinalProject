@@ -1,7 +1,5 @@
 import React, { useState, useEffect } from "react";
 import { useAuth } from "../Authentication/ProvideAuth";
-import { filterContext } from "../Pages/Content";
-import { useContext } from "react";
 
 export const usePagedBookList = (
     initialPageSize,
@@ -17,7 +15,7 @@ export const usePagedBookList = (
     const [login] = useAuth();
 
     const load = () => {
-        fetch(`${url}/${location}/${location + pageSize}/${filter}`, {
+        fetch(`${url}/${location}/${location + pageSize - 1}/${filter}`, {
             method: "GET",
             headers: {
                 Authorization: `Bearer ${login.jwt}`,
@@ -115,10 +113,12 @@ export const usePagedSearchBookList = (
     const load = () => {
         let targeturl = "";
         if (!query || query.length === 0) {
-            targeturl = `${url}/${location}/${location + pageSize}/${filter}`;
+            targeturl = `${url}/${location}/${
+                location + pageSize - 1
+            }/${filter}`;
         } else {
             targeturl = `${url}/search/${query}/${location}/${
-                location + pageSize
+                location + pageSize - 1
             }/${filter}`;
         }
         fetch(targeturl, {
@@ -217,10 +217,12 @@ export const usePagedSearchBookListByAuthor = (
     const load = () => {
         let targeturl = "";
         if (!query || query.length === 0) {
-            targeturl = `${url}/${location}/${location + pageSize}/${filter}`;
+            targeturl = `${url}/${location}/${
+                location + pageSize - 1
+            }/${filter}`;
         } else {
             targeturl = `${url}/searchByAuthor/${query}/${location}/${
-                location + pageSize
+                location + pageSize - 1
             }/${filter}`;
         }
         fetch(targeturl, {
@@ -378,347 +380,6 @@ export const useCustomer = (id, url = "http://localhost:3081/app/book") => {
 
     return [customer, loading];
 };
-
-// export const useBooksByAuthorList = (
-//     initialPageSize,
-//     query,
-//     url = "http://localhost:3081/app/book/searchByMultipleAuthor"
-// ) => {
-//     const [pageSize, setPageSize] = useState(initialPageSize);
-//     const [books, setBooks] = useState(null);
-//     const [loading, setLoading] = useState(true);
-//     const [login] = useAuth();
-
-//     useEffect(() => {
-//         setLoading(true);
-//         fetch(url, {
-//             method: "POST",
-//             headers: {
-//                 Authorization: `Bearer ${login.jwt}`,
-//             },
-//             body: JSON.stringify({ authors: { query } }),
-//         })
-//             .then((resp) => resp.json())
-//             .then((data) => {
-//                 if (data.status === "ok") {
-//                     setBooks(data.body);
-//                     setLoading(false);
-//                 }
-//             });
-//     }, []);
-
-//     return [books, loading];
-// };
-
-// export const useBooksByAuthorList = (
-//     query,
-//     initialPageSize,
-//     url = "http://localhost:3081/app/books/searchByMultipleAuthor"
-// ) => {
-//     const [pageSize, setPageSize] = useState(initialPageSize);
-//     const [list, setList] = useState([]);
-//     const [location, setLocation] = useState(1);
-//     const [length, setLength] = useState(0);
-//     const [loading, setLoading] = useState(true);
-//     const [error, setError] = useState(null);
-//     const [login] = useAuth();
-
-//     const load = () => {
-//         fetch(`${url}/${location}/${location + pageSize}`, {
-//             method: "POST",
-//             headers: {
-//                 "Content-Type": "application/json",
-//                 Authorization: `Bearer ${login.jwt}`,
-//             },
-//             body: JSON.stringify({ authors: query }),
-//         })
-//             .then((resp) => resp.json())
-//             .then((data) => {
-//                 if (data.status == "ok") {
-//                     setLength(data.body.length);
-//                     setList(data.body.results);
-//                     setLoading(false);
-//                     setError(null);
-//                 } else {
-//                     setLength(0);
-//                     setList([]);
-//                     setLoading(false);
-//                     setError(data.body);
-//                     console.log(error);
-//                 }
-//             })
-//             .catch((err) => {
-//                 setLength(0);
-//                 setList([]);
-//                 setLoading(false);
-//                 setError(err);
-//                 console.log(error);
-//             });
-//     };
-
-//     useEffect(() => {
-//         setLoading(true);
-//         load();
-//     }, [location, pageSize, url]);
-
-//     const pages = Math.ceil(length / pageSize);
-//     const page = Math.ceil(location / pageSize);
-
-//     const forward = () => {
-//         let from = location + pageSize + 1;
-//         setLocation(from);
-//     };
-
-//     const back = () => {
-//         let from = location - pageSize - 1;
-//         from = from < 1 ? 1 : from;
-//         setLocation(from);
-//     };
-
-//     const goToPage = (p) => {
-//         let from = p * pageSize + 1;
-//         setLocation(from);
-//     };
-
-//     return [
-//         list,
-//         location,
-//         loading,
-//         error,
-//         pages,
-//         page,
-//         forward,
-//         back,
-//         goToPage,
-//         length,
-//         pageSize,
-//         (p) => {
-//             //setPageSize
-//             setLoading(true);
-//             setPageSize(p);
-//             setLocation(1);
-//             load();
-//         },
-//         () => {
-//             //reload
-//             setLoading(true);
-//             load();
-//         },
-//     ];
-// };
-
-// export const useBooksByAuthorList = (
-//     query,
-//     initialPageSize,
-//     url = "http://localhost:3081/app/books/searchByMultipleAuthor"
-// ) => {
-//     const [pageSize, setPageSize] = useState(initialPageSize);
-//     const [list, setList] = useState([]);
-//     const [location, setLocation] = useState(1);
-//     const [length, setLength] = useState(0);
-//     const [loading, setLoading] = useState(true);
-//     const [error, setError] = useState(null);
-//     const [login] = useAuth();
-
-//     const load = () => {
-//         fetch(`${url}/${location}/${location + pageSize}`, {
-//             method: "POST",
-//             headers: {
-//                 "Content-Type": "application/json",
-//                 Authorization: `Bearer ${login.jwt}`,
-//             },
-//             body: JSON.stringify({ authors: query }),
-//         })
-//             .then((resp) => resp.json())
-//             .then((data) => {
-//                 if (data.status == "ok") {
-//                     setLength(data.body.length);
-//                     setList(data.body.results);
-//                     setLoading(false);
-//                     setError(null);
-//                 } else {
-//                     setLength(0);
-//                     setList([]);
-//                     setLoading(false);
-//                     setError(data.body);
-//                     console.log(error);
-//                 }
-//             })
-//             .catch((err) => {
-//                 setLength(0);
-//                 setList([]);
-//                 setLoading(false);
-//                 setError(err);
-//                 console.log(error);
-//             });
-//     };
-
-//     useEffect(() => {
-//         setLoading(true);
-//         load();
-//     }, [location, pageSize, url]);
-
-//     const pages = Math.ceil(length / pageSize);
-//     const page = Math.ceil(location / pageSize);
-
-//     const forward = () => {
-//         let from = location + pageSize + 1;
-//         setLocation(from);
-//     };
-
-//     const back = () => {
-//         let from = location - pageSize - 1;
-//         from = from < 1 ? 1 : from;
-//         setLocation(from);
-//     };
-
-//     const goToPage = (p) => {
-//         let from = p * pageSize + 1;
-//         setLocation(from);
-//     };
-
-//     return [
-//         list,
-//         location,
-//         loading,
-//         error,
-//         pages,
-//         page,
-//         forward,
-//         back,
-//         goToPage,
-//         length,
-//         pageSize,
-//         (p) => {
-//             //setPageSize
-//             setLoading(true);
-//             setPageSize(p);
-//             setLocation(1);
-//             load();
-//         },
-//         () => {
-//             //reload
-//             setLoading(true);
-//             load();
-//         },
-//     ];
-// };
-
-// ) => {
-//     const [pageSize, setPageSize] = useState(initialPageSize);
-//     const [list, setList] = useState([]);
-//     const [location, setLocation] = useState(1);
-//     const [length, setLength] = useState(0);
-//     const [loading, setLoading] = useState(true);
-//     const [error, setError] = useState(null);
-//     const [login] = useAuth();
-
-//     const load = () => {
-//         fetch(`${url}/${location}/${location + pageSize}`, {
-//             method: "POST",
-//             headers: {
-//                 "Content-Type": "application/json",
-//                 Authorization: `Bearer ${login.jwt}`,
-//             },
-//             body: JSON.stringify({ authors: query }),
-//         })
-
-// export const useBooksByAuthorList = (
-//     query,
-//     initialPageSize,
-//     url = "http://localhost:3081/app/books/searchByMultipleAuthor"
-// ) => {
-//     const [pageSize, setPageSize] = useState(initialPageSize);
-//     const [list, setList] = useState([]);
-//     const [location, setLocation] = useState(1);
-//     const [length, setLength] = useState(0);
-//     const [loading, setLoading] = useState(true);
-//     const [error, setError] = useState(null);
-//     const [login] = useAuth();
-
-//     const load = () => {
-//         fetch(`${url}/${location}/${location + pageSize}`, {
-//             method: "POST",
-//             headers: {
-//                 "Content-Type": "application/json",
-//                 Authorization: `Bearer ${login.jwt}`,
-//             },
-//             body: JSON.stringify({ authors: query }),
-//         })
-//             .then((resp) => resp.json())
-//             .then((data) => {
-//                 if (data.status == "ok") {
-//                     setLength(data.body.length);
-//                     setList(data.body.results);
-//                     setLoading(false);
-//                     setError(null);
-//                 } else {
-//                     setLength(0);
-//                     setList([]);
-//                     setLoading(false);
-//                     setError(data.body);
-//                     console.log(error);
-//                 }
-//             })
-//             .catch((err) => {
-//                 setLength(0);
-//                 setList([]);
-//                 setLoading(false);
-//                 setError(err);
-//                 console.log(error);
-//             });
-//     };
-
-//     useEffect(() => {
-//         setLoading(true);
-//         load();
-//     }, [location, pageSize, url]);
-
-//     const pages = Math.ceil(length / pageSize);
-//     const page = Math.ceil(location / pageSize);
-
-//     const forward = () => {
-//         let from = location + pageSize + 1;
-//         setLocation(from);
-//     };
-
-//     const back = () => {
-//         let from = location - pageSize - 1;
-//         from = from < 1 ? 1 : from;
-//         setLocation(from);
-//     };
-
-//     const goToPage = (p) => {
-//         let from = p * pageSize + 1;
-//         setLocation(from);
-//     };
-
-//     return [
-//         list,
-//         location,
-//         loading,
-//         error,
-//         pages,
-//         page,
-//         forward,
-//         back,
-//         goToPage,
-//         length,
-//         pageSize,
-//         (p) => {
-//             //setPageSize
-//             setLoading(true);
-//             setPageSize(p);
-//             setLocation(1);
-//             load();
-//         },
-//         () => {
-//             //reload
-//             setLoading(true);
-//             load();
-//         },
-//     ];
-// };
 
 export const useBooksByAuthorList = (
     query,

@@ -33,7 +33,7 @@ const SingInBox = () => {
 
     let { from } = location.state || { from: { pathname: "/login" } };
     return (
-        <Box width="500px">
+        <Box display="flex" flexDirection="column" alignItems="center">
             <Typography mt={2} fontSize="large" textAlign="center">
                 Sign In
             </Typography>

@@ -1,19 +1,34 @@
+/* Informations 
+╔═════════════════════════════════════════════════════════════════════════════╗
+║  v1.0  :  21-10-29                                                          ║
+║                                                                             ║
+║  Book detail page. This page is used for adding new book as well as edit    ║
+║  existing one.                                                              ║
+║                                                                             ║
+╚════════════════════════════════════════════════════════════════════════════*/
+
+// Imports
 import React, { useState } from "react";
-import { Formik, Form } from "formik";
-// import './CustomerDetails.css';
-import { customerYupSchema, toStandardTime } from "../../Utils/validationTools";
-import Button from "@mui/material/Button";
-import TextField from "@mui/material/TextField";
-import DatePicker from "@mui/lab/DatePicker";
 import { useHistory } from "react-router-dom";
-import Select from "@mui/material/Select";
-import MenuItem from "@mui/material/MenuItem";
-import InputLabel from "@mui/material/InputLabel";
-import Switch from "@mui/material/Switch";
-import ImagePlaceholder from "./Components/ImagePlaceholder";
+import { Formik, Form } from "formik";
+import {
+    Typography,
+    Box,
+    FormControlLabel,
+    Button,
+    TextField,
+    Select,
+    MenuItem,
+    InputLabel,
+    Checkbox,
+    Switch,
+} from "@mui/material";
+import DatePicker from "@mui/lab/DatePicker";
+import { bookSchema, toStandardTime } from "../../Utils/validationTools";
 import AuthorBooks from "./AuthorBooks";
 import ChipsArray from "./Components/ChipsArray";
 
+// Component
 const BookDetail = ({ startingMode, customer, action }) => {
     const [mode, setMode] = useState(startingMode);
     const history = useHistory();
@@ -21,21 +36,28 @@ const BookDetail = ({ startingMode, customer, action }) => {
     let inputProperties = {};
     let hideID = false;
     if (mode === "view") {
-        message = `Pregled ${customer.title}`;
+        message = `View: ${customer.title}`;
         inputProperties = { readOnly: true };
     } else if (mode === "edit") {
-        message = `Izmena ${customer.title}`;
+        message = `Edit: ${customer.title}`;
     } else if (mode === "create") {
-        message = "Kreiranje nove knjige";
+        message = "Add new book";
         hideID = true;
     }
 
     return (
-        <div className="formContent">
-            <h3>{message}</h3>
+        <Box display="flex" flexDirection="column" alignItems="center">
+            <Typography
+                sx={{ mt: 5, textAlign: "center" }}
+                variant="h5"
+                color="primary"
+            >
+                {message}
+            </Typography>
+
             <Formik
                 initialValues={customer}
-                validationSchema={customerYupSchema}
+                validationSchema={bookSchema}
                 onSubmit={(values, { setSubmitting }) => {
                     const rez = action(values);
                     setSubmitting(false);
@@ -55,10 +77,10 @@ const BookDetail = ({ startingMode, customer, action }) => {
                     isSubmitting,
                 }) => (
                     <Form onSubmit={handleSubmit}>
-                        {hideID || (
+                        {/* {hideID || (
                             <TextField
                                 fullWidth
-                                margin="normal"
+                                margin="dense"
                                 name="id"
                                 label="Id"
                                 value={values.id}
@@ -69,7 +91,8 @@ const BookDetail = ({ startingMode, customer, action }) => {
                                 InputProps={{ readOnly: true }}
                                 variant="outlined"
                             />
-                        )}
+                        )} */}
+
                         <TextField
                             fullWidth
                             margin="normal"
@@ -83,139 +106,169 @@ const BookDetail = ({ startingMode, customer, action }) => {
                             variant="outlined"
                             InputProps={inputProperties}
                         />
-                        {/* <br />
-                        <TextField
-                            fullWidth
-                            margin="normal"
-                            name="authors"
-                            label="Autori:"
-                            value={
-                                values.authors === ""
-                                    ? ""
-                                    : values.authors.join("\n")
-                            }
-                            onChange={(e) => onChange555(e, setFieldValue)}
-                            onBlur={handleBlur}
-                            error={touched.authors && Boolean(errors.authors)}
-                            helperText={touched.authors && errors.authors}
-                            multiline
-                            maxRows={4}
-                            variant="outlined"
-                            InputProps={inputProperties}
-                        /> */}
-                        <ChipsArray
-                            items={values.authors}
-                            InputProps={inputProperties}
-                            fieldSetter={setFieldValue}
-                        ></ChipsArray>
-
-                        <TextField
-                            fullWidth
-                            margin="normal"
-                            name="isbn"
-                            label="ISBN"
-                            value={values.isbn}
-                            onChange={handleChange}
-                            onBlur={handleBlur}
-                            error={touched.isbn && Boolean(errors.isbn)}
-                            helperText={touched.isbn && errors.isbn}
-                            variant="outlined"
-                            InputProps={inputProperties}
-                        />
-
-                        <TextField
-                            fullWidth
-                            type="number"
-                            margin="normal"
-                            name="pages"
-                            label="Pages"
-                            value={values.pages}
-                            onChange={handleChange}
-                            onBlur={handleBlur}
-                            error={touched.pages && Boolean(errors.pages)}
-                            helperText={touched.pages && errors.pages}
-                            variant="outlined"
-                            InputProps={inputProperties}
-                        />
-                        <TextField
-                            fullWidth
-                            type="number"
-                            margin="normal"
-                            name="rating"
-                            label="Rating"
-                            value={values.rating}
-                            onChange={handleChange}
-                            onBlur={handleBlur}
-                            error={touched.rating && Boolean(errors.rating)}
-                            helperText={touched.rating && errors.rating}
-                            variant="outlined"
-                            InputProps={inputProperties}
-                        />
-                        <InputLabel id="genreL">Genre</InputLabel>
-                        <Select
-                            margin="normal"
-                            labelId="genreL"
-                            id="genre"
-                            name="genre"
-                            value={values.genre}
-                            label="Genre"
-                            onChange={handleChange}
-                            onBlur={handleBlur}
-                            InputProps={inputProperties}
-                            variant="outlined"
-                            error={touched.genre && Boolean(errors.genre)}
-                            helperText={touched.genre && errors.genre}
+                        <Box
+                            display="flex"
+                            flexDirection="row"
+                            justifyContent="space-between"
                         >
-                            <MenuItem value={"Science Fiction"}>
-                                Science Fiction
-                            </MenuItem>
-                            <MenuItem value={"Fantasy"}>Fantasy</MenuItem>
-                            <MenuItem value={"Computing"}>Computing</MenuItem>
-                            <MenuItem value={"Mystery"}>Mystery</MenuItem>
-                            <MenuItem value={"Horror"}>Horror</MenuItem>
-                        </Select>
-                        <br />
-                        <ImagePlaceholder />
-                        <br />
-                        <Switch
-                            variant="outlined"
-                            margin="normal"
-                            name="available"
-                            label="Available"
-                            value={values.available}
-                            checked={values.available}
-                            onChange={handleChange}
-                            onBlur={handleBlur}
-                            error={
-                                touched.available && Boolean(errors.available)
-                            }
-                            helperText={touched.available && errors.available}
-                            InputProps={inputProperties}
-                            disabled={inputProperties.readOnly}
-                        />
-                        <br />
-                        <DatePicker
-                            margin="normal"
-                            name="publishDate"
-                            label="Datum izdavanja kljige:"
-                            value={values.publishDate}
-                            readOnly={inputProperties.readOnly}
-                            onChange={(e) => {
-                                setFieldValue("publishDate", toStandardTime(e));
-                                setFieldTouched("publishDate", true, true);
-                                validateField("publishDate");
-                            }}
-                            onBlur={handleBlur}
-                            renderInput={(params) => <TextField {...params} />}
-                        />
-                        <span>
-                            {touched.publishDate && Boolean(errors.publishDate)
-                                ? errors.publishDate
-                                : ""}
-                        </span>
+                            <Box display="flex" flexDirection="column">
+                                <TextField
+                                    fullWidth
+                                    margin="normal"
+                                    name="isbn"
+                                    label="ISBN"
+                                    value={values.isbn}
+                                    onChange={handleChange}
+                                    onBlur={handleBlur}
+                                    error={touched.isbn && Boolean(errors.isbn)}
+                                    helperText={touched.isbn && errors.isbn}
+                                    variant="outlined"
+                                    InputProps={inputProperties}
+                                />
+
+                                <TextField
+                                    fullWidth
+                                    type="number"
+                                    margin="normal"
+                                    name="pages"
+                                    label="Pages"
+                                    value={values.pages}
+                                    onChange={handleChange}
+                                    onBlur={handleBlur}
+                                    error={
+                                        touched.pages && Boolean(errors.pages)
+                                    }
+                                    helperText={touched.pages && errors.pages}
+                                    variant="outlined"
+                                    InputProps={inputProperties}
+                                />
+                                <TextField
+                                    fullWidth
+                                    type="number"
+                                    margin="dense"
+                                    name="rating"
+                                    label="Rating"
+                                    sx={{ mb: "12px" }}
+                                    value={values.rating}
+                                    onChange={handleChange}
+                                    onBlur={handleBlur}
+                                    error={
+                                        touched.rating && Boolean(errors.rating)
+                                    }
+                                    helperText={touched.rating && errors.rating}
+                                    variant="outlined"
+                                    InputProps={inputProperties}
+                                />
+
+                                <InputLabel
+                                    id="demo-simple-select-label"
+                                    sx={{ fontSize: "0.8rem" }}
+                                >
+                                    Genre
+                                </InputLabel>
+                                <Select
+                                    // margin="normal"
+                                    fullWidth
+                                    labelId="genreL"
+                                    id="demo-simple-select-label"
+                                    name="genre"
+                                    value={values.genre}
+                                    label="Genre"
+                                    onChange={handleChange}
+                                    onBlur={handleBlur}
+                                    InputProps={inputProperties}
+                                    variant="outlined"
+                                    error={
+                                        touched.genre && Boolean(errors.genre)
+                                    }
+                                    // helperText={touched.genre && errors.genre}
+                                >
+                                    <MenuItem value={"Science Fiction"}>
+                                        Science Fiction
+                                    </MenuItem>
+                                    <MenuItem value={"Fantasy"}>
+                                        Fantasy
+                                    </MenuItem>
+                                    <MenuItem value={"Computing"}>
+                                        Computing
+                                    </MenuItem>
+                                    <MenuItem value={"Mystery"}>
+                                        Mystery
+                                    </MenuItem>
+                                    <MenuItem value={"Horror"}>Horror</MenuItem>
+                                </Select>
+                                <br />
+                                <DatePicker
+                                    margin="normal"
+                                    name="publishDate"
+                                    label="Release date:"
+                                    value={values.publishDate}
+                                    readOnly={inputProperties.readOnly}
+                                    onChange={(e) => {
+                                        setFieldValue(
+                                            "publishDate",
+                                            toStandardTime(e)
+                                        );
+                                        setFieldTouched(
+                                            "publishDate",
+                                            true,
+                                            true
+                                        );
+                                        validateField("publishDate");
+                                    }}
+                                    onBlur={handleBlur}
+                                    renderInput={(params) => (
+                                        <TextField {...params} />
+                                    )}
+                                />
+                                <span>
+                                    {touched.publishDate &&
+                                    Boolean(errors.publishDate)
+                                        ? errors.publishDate
+                                        : ""}
+                                </span>
+
+                                <FormControlLabel
+                                    control={
+                                        <Switch
+                                            variant="outlined"
+                                            margin="normal"
+                                            name="available"
+                                            value={values.available}
+                                            checked={values.available}
+                                            onChange={handleChange}
+                                            onBlur={handleBlur}
+                                            error={
+                                                touched.available &&
+                                                Boolean(errors.available)
+                                            }
+                                            // helperText={touched.available && errors.available}
+                                            InputProps={inputProperties}
+                                            disabled={inputProperties.readOnly}
+                                        />
+                                    }
+                                    label="Available"
+                                />
+                            </Box>
+
+                            <Box display="flex" flexDirection="column">
+                                <ChipsArray
+                                    items={values.authors}
+                                    InputProps={inputProperties}
+                                    fieldSetter={setFieldValue}
+                                ></ChipsArray>
+                                {mode === "view" ? (
+                                    <AuthorBooks
+                                        authors={values.authors}
+                                    ></AuthorBooks>
+                                ) : (
+                                    ""
+                                )}
+                            </Box>
+                        </Box>
 
                         {mode === "view" ? (
-                            <AuthorBooks authors={values.authors}></AuthorBooks>
+                            ""
                         ) : (
                             <Button
                                 disabled={isSubmitting}
@@ -223,6 +276,7 @@ const BookDetail = ({ startingMode, customer, action }) => {
                                 variant="contained"
                                 fullWidth
                                 type="submit"
+                                sx={{ mt: "12px" }}
                             >
                                 Snimi
                             </Button>
@@ -230,7 +284,7 @@ const BookDetail = ({ startingMode, customer, action }) => {
                     </Form>
                 )}
             </Formik>
-        </div>
+        </Box>
     );
 };
 
@@ -249,4 +303,5 @@ BookDetail.defaultProps = {
     startingMode: "view",
 };
 
+// Exports
 export default BookDetail;
