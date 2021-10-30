@@ -86,6 +86,7 @@ app.get("/app/book/:id", async (req, res) => {
     res.send(took(data.books.find((n) => n.id == req.params.id)));
 });
 
+// Original function
 // app.get("/app/books/:from/:to", async (req, res) => {
 //     if ((!(await checkHeader(req.headers))).valid) {
 //         res.send(toerr("Not logged in!"));
@@ -129,6 +130,7 @@ app.get("/app/books/:from/:to/:genre", async (req, res) => {
     res.send(took(obj));
 });
 
+// Original function
 // app.get("/app/books/search/:q/:from/:to", async (req, res) => {
 //     if ((!(await checkHeader(req.headers))).valid) {
 //         res.send(toerr("Not logged in!"));
@@ -190,6 +192,7 @@ app.get("/app/books/search/:q/:from/:to/:genre", async (req, res) => {
     res.send(took(obj));
 });
 
+// Original function
 // app.get("/app/books/searchByAuthor/:q/:from/:to", async (req, res) => {
 //     if ((!(await checkHeader(req.headers))).valid) {
 //         res.send(toerr("Not logged in!"));
@@ -323,8 +326,7 @@ fs.readFile("books.json", { encoding: "utf-8" }, async (err, dataString) => {
     app.listen(port, console.log(`Server je na portu ${port}.`));
 });
 
-// MY =============
-
+// Function returns list of books for provided list of authors
 app.post("/app/books/searchByMultipleAuthor/:from/:to", async (req, res) => {
     if ((!(await checkHeader(req.headers))).valid) {
         res.send(toerr("Not logged in!"));
@@ -336,7 +338,6 @@ app.post("/app/books/searchByMultipleAuthor/:from/:to", async (req, res) => {
 
     if (authors && authors.length !== 0) {
         rez = data.books.filter((n) => {
-            // if (authors.some((x) => a.toString().includes(x.toString())))
             for (let a of n.authors)
                 if (authors.some((x) => a.toString() === x.toString()))
                     return true;
@@ -356,6 +357,7 @@ app.post("/app/books/searchByMultipleAuthor/:from/:to", async (req, res) => {
     res.send(took(obj));
 });
 
+// Function to check server version and availability
 app.get("/app/status", async (req, res) => {
     res.send(took("v0.1myserver"));
 });

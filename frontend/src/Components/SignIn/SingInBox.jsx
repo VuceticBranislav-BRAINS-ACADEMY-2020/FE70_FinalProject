@@ -203,7 +203,9 @@ const SingInBox = () => {
                             fontStyle="italic"
                             fontSize="small"
                         >
-                            Password must satisfy at least 4 of 5 rules.
+                            Password must satisfy at least 4 of 5 rules and one
+                            additional rule.
+                            <br />
                             <br />
                             1. Two uppercase caracter
                             <br />
@@ -214,6 +216,7 @@ const SingInBox = () => {
                             4. One digit
                             <br />
                             5. Minimum length od 12 characters
+                            <br />
                             <br />
                             Additionally to this rules none character can have
                             occurace grater
