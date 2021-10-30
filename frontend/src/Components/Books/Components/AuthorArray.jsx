@@ -1,9 +1,26 @@
+/* Informations 
+╔═════════════════════════════════════════════════════════════════════════════╗
+║  v1.0  :  21-10-30                                                          ║
+║                                                                             ║
+║  Component that display authors in edit and view page. If mode is edit      ║
+║  author can be added. If mode is view author can only be seen.              ║
+║                                                                             ║
+╚════════════════════════════════════════════════════════════════════════════*/
+
+// Imports
 import React from "react";
 import { Link as RouterLink } from "react-router-dom";
 import { styled } from "@mui/material/styles";
-import { Chip, Box, InputLabel, Link, List, ListItem } from "@mui/material";
-import Paper from "@mui/material/Paper";
-import TextField from "@mui/material/TextField";
+import {
+    Chip,
+    Box,
+    InputLabel,
+    Link,
+    List,
+    ListItem,
+    Paper,
+    TextField,
+} from "@mui/material";
 
 const ListItemChip = styled("li")(({ theme }) => ({
     margin: theme.spacing(0.5),
@@ -18,11 +35,14 @@ const arrayKeying = (list) => {
     );
 };
 
+// Component
 function ChipsArray({
     items,
     onDelete,
     InputProps: inputProperties,
     fieldSetter,
+    error,
+    helperText,
 }) {
     const [chipData, setChipData] = React.useState(arrayKeying(items));
 
@@ -56,7 +76,7 @@ function ChipsArray({
                 maxWidth: "280px",
             }}
         >
-            {inputProperties.readOnly ? (
+            {inputProperties.disabled ? (
                 <Box>
                     <InputLabel sx={{ fontSize: "0.8rem" }}>
                         List of Authors:
@@ -106,6 +126,8 @@ function ChipsArray({
                         name="addButton"
                         label="Add Author"
                         variant="outlined"
+                        error={error}
+                        helperText={helperText}
                         InputProps={inputProperties}
                         onKeyDown={(e) => keyPress(e)}
                     />
@@ -127,7 +149,7 @@ function ChipsArray({
                                         InputProps={inputProperties}
                                         label={x.label}
                                         onDelete={
-                                            inputProperties.readOnly === true
+                                            inputProperties.disabled === true
                                                 ? undefined
                                                 : handleDelete(x)
                                         }
@@ -142,4 +164,5 @@ function ChipsArray({
     );
 }
 
+// Exports
 export default ChipsArray;

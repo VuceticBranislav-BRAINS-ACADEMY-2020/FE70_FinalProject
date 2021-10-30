@@ -1,7 +1,10 @@
-// import h from "./Resources/Horror.jpg";
-import React from "react";
-import { useFetch } from "react-async";
-import { Paper, Typography, Box } from "@mui/material";
+/* Informations 
+╔═════════════════════════════════════════════════════════════════════════════╗
+║  v1.0  :  21-10-28                                                          ║
+║                                                                             ║
+║  Util functions                                                             ║
+║                                                                             ║
+╚════════════════════════════════════════════════════════════════════════════*/
 
 const userExists = async (username) => {
     if (username === undefined) return false;
@@ -65,4 +68,9 @@ const setMeter = (
     setMeterValue(points);
 };
 
-export { setMeter, getMaxCount, userExists };
+const toStandardTime = (time) => {
+    return time.toFormat("y-MM-dd");
+};
+
+// Exports
+export { setMeter, getMaxCount, userExists, toStandardTime };

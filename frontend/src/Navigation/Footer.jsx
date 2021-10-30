@@ -7,7 +7,7 @@
 ╚════════════════════════════════════════════════════════════════════════════*/
 
 // Imports
-import { AppBar, Box, Typography } from "@mui/material";
+import { AppBar, Link, Typography } from "@mui/material";
 
 const Footer = () => {
     return (
@@ -17,14 +17,21 @@ const Footer = () => {
             sx={{ alignItems: "center" }}
         >
             <Typography
-                // color="primary.contrastText"
                 fontSize="small"
                 margin={0.25}
                 sx={{
                     userSelect: "none",
                 }}
             >
-                © 2021 - Vucetic Branislav
+                © 2021&#160;-&#160;
+                <Link
+                    target="_blank"
+                    href="https://github.com/VuceticBranislav"
+                    underline="hover"
+                    color="inherit"
+                >
+                    Vucetic Branislav
+                </Link>
             </Typography>
         </AppBar>
     );

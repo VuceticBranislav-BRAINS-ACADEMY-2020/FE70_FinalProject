@@ -8,20 +8,19 @@
 
 // Imports
 import { Link as RouterLink } from "react-router-dom";
-import React, { useReducer } from "react";
+import React from "react";
 import { Box } from "@mui/material";
 import IconButton from "@mui/material/IconButton";
 import Card from "@mui/material/Card";
 import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
 import InfoIcon from "@mui/icons-material/Info";
-import Typography from "@mui/material/Typography";
+import { Typography, Tooltip } from "@mui/material";
 import ImagePlaceholder from "./Components/ImagePlaceholder";
 import Rating from "@mui/material/Rating";
 import AutoStoriesTwoToneIcon from "@mui/icons-material/AutoStories";
 import DoneAllRoundedIcon from "@mui/icons-material/DoneAllRounded";
 import RemoveDoneRoundedIcon from "@mui/icons-material/RemoveDoneRounded";
-import Link from "@mui/material/Link";
 
 // Book component display all information on card
 const BookCard = ({ bookData, onDelete }) => {
@@ -35,7 +34,6 @@ const BookCard = ({ bookData, onDelete }) => {
                 m: 0.2,
                 p: 1,
                 boxSizing: "border-box",
-                //  bgcolor: "primary.main",
             }}
         >
             <Typography sx={{ fontSize: 12 }}>#{bookData.id}</Typography>
@@ -66,21 +64,29 @@ const BookCard = ({ bookData, onDelete }) => {
                 }}
             >
                 <Rating name="read-only" value={bookData.rating} readOnly />
-                <Box
-                    sx={{
-                        display: "flex",
-                        flexDirection: "row",
-                        userSelect: "none",
-                    }}
-                >
-                    <AutoStoriesTwoToneIcon color="primary" fontSize="small" />
-                    &#160;{bookData.pages}
-                </Box>
-                {bookData.available ? (
-                    <DoneAllRoundedIcon color="success" />
-                ) : (
-                    <RemoveDoneRoundedIcon color="error" />
-                )}
+
+                <Tooltip title="Number of pages">
+                    <Box
+                        sx={{
+                            display: "flex",
+                            flexDirection: "row",
+                            userSelect: "none",
+                        }}
+                    >
+                        <AutoStoriesTwoToneIcon
+                            color="primary"
+                            fontSize="small"
+                        />
+                        &#160;{bookData.pages}
+                    </Box>
+                </Tooltip>
+                <Tooltip title="Availibility">
+                    {bookData.available ? (
+                        <DoneAllRoundedIcon color="success" />
+                    ) : (
+                        <RemoveDoneRoundedIcon color="error" />
+                    )}
+                </Tooltip>
             </Box>
 
             <Box
@@ -131,40 +137,48 @@ const BookCard = ({ bookData, onDelete }) => {
                         alignItems: "flex-end",
                     }}
                 >
-                    <IconButton
-                        color="primary"
-                        component={RouterLink}
-                        to={`/books/${bookData.id}/view`}
-                        sx={{
-                            m: 0,
-                        }}
-                    >
-                        <InfoIcon fontSize="inherit" />
-                    </IconButton>
+                    <Tooltip title="Info">
+                        <IconButton
+                            color="primary"
+                            component={RouterLink}
+                            to={`/books/${bookData.id}/view`}
+                            sx={{
+                                m: 0,
+                            }}
+                        >
+                            <InfoIcon fontSize="inherit" />
+                        </IconButton>
+                    </Tooltip>
 
-                    <IconButton
-                        color="primary"
-                        component={RouterLink}
-                        to={`/books/${bookData.id}/edit`}
-                        sx={{
-                            m: 0,
-                        }}
-                    >
-                        <EditIcon fontSize="inherit" />
-                    </IconButton>
-                    <IconButton
-                        color="primary"
-                        onClick={() => onDelete(bookData.id)}
-                        sx={{
-                            m: 0,
-                        }}
-                    >
-                        <DeleteIcon fontSize="inherit" />
-                    </IconButton>
+                    <Tooltip title="Edit book">
+                        <IconButton
+                            color="primary"
+                            component={RouterLink}
+                            to={`/books/${bookData.id}/edit`}
+                            sx={{
+                                m: 0,
+                            }}
+                        >
+                            <EditIcon fontSize="inherit" />
+                        </IconButton>
+                    </Tooltip>
+
+                    <Tooltip title="Delete book">
+                        <IconButton
+                            color="primary"
+                            onClick={() => onDelete(bookData.id)}
+                            sx={{
+                                m: 0,
+                            }}
+                        >
+                            <DeleteIcon fontSize="inherit" />
+                        </IconButton>
+                    </Tooltip>
                 </Box>
             </Box>
         </Card>
     );
 };
 
+// Exports
 export default BookCard;

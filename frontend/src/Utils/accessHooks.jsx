@@ -1,4 +1,13 @@
-import React, { useState, useEffect } from "react";
+/* Informations 
+╔═════════════════════════════════════════════════════════════════════════════╗
+║  v1.0  :  21-10-26                                                          ║
+║                                                                             ║
+║  Hooks for backend interaction                                              ║
+║                                                                             ║
+╚════════════════════════════════════════════════════════════════════════════*/
+
+// Imports
+import { useState, useEffect } from "react";
 import { useAuth } from "../Authentication/ProvideAuth";
 
 export const usePagedBookList = (

@@ -1,37 +1,34 @@
 /* Informations 
 ╔═════════════════════════════════════════════════════════════════════════════╗
-║  v1.0  :  21-10-28                                                          ║
+║  v1.0  :  21-10-30                                                          ║
 ║                                                                             ║
-║  List of all books to display                                               ║
+║  Error 404 page.                                                            ║
 ║                                                                             ║
 ╚════════════════════════════════════════════════════════════════════════════*/
 
 // Imports
 import React from "react";
-import BookCard from "./BookCard";
-import Box from "@mui/material/Box";
+import { Box, Typography } from "@mui/material";
+import ReportGmailerrorredIcon from "@mui/icons-material/ReportGmailerrorred";
 
 // Component
-const BookList = ({ list, onDelete }) => {
+const Error404 = () => {
     return (
         <Box
-            sx={{
-                display: "flex",
-                flexDirection: "row",
-                flexWrap: "wrap",
-                justifyContent: "center",
-            }}
+            display="flex"
+            flexDirection="column"
+            alignItems="center"
+            mt="100px"
         >
-            {list.map((row) => (
-                <BookCard
-                    key={row.id.toString()}
-                    bookData={row}
-                    onDelete={onDelete}
-                />
-            ))}
+            <ReportGmailerrorredIcon sx={{ fontSize: "100px", color: "red" }} />
+            <Typography sx={{ mt: 1, textAlign: "center", userSelect: "none" }}>
+                Resource not found
+                <br />
+                <b>Error 404</b>
+            </Typography>
         </Box>
     );
 };
 
 // Exports
-export default BookList;
+export default Error404;

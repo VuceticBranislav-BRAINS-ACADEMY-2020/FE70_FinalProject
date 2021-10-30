@@ -1,10 +1,20 @@
+/* Informations 
+╔═════════════════════════════════════════════════════════════════════════════╗
+║  v1.0  :  21-10-28                                                          ║
+║                                                                             ║
+║  Open detail page for one book                                              ║
+║                                                                             ║
+╚════════════════════════════════════════════════════════════════════════════*/
+
+// Imports
 import React from "react";
 import { useParams } from "react-router-dom";
+import { LinearProgress } from "@mui/material";
 import { useCustomer, updateCustomer } from "../Utils/accessHooks";
 import BookDetail from "../Components/Books/BookDetail";
 import { useAuth } from "../Authentication/ProvideAuth";
-import { LinearProgress } from "@mui/material";
 
+// Component
 const BookDetailPage = () => {
     const { cid, operation } = useParams();
     const [customer, loading] = useCustomer(cid);
@@ -26,4 +36,5 @@ const BookDetailPage = () => {
     }
 };
 
+// Exports
 export default BookDetailPage;

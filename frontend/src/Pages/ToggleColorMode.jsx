@@ -9,7 +9,7 @@
 
 // Imports
 import React from "react";
-import IconButton from "@mui/material/IconButton";
+import { IconButton, Tooltip } from "@mui/material";
 import { useTheme, ThemeProvider, createTheme } from "@mui/material/styles";
 import Brightness5Icon from "@mui/icons-material/Brightness5";
 import Brightness7Icon from "@mui/icons-material/Brightness7";
@@ -21,17 +21,19 @@ function ThemeButton() {
     const theme = useTheme();
     const colorMode = React.useContext(ColorModeContext);
     return (
-        <IconButton
-            sx={{ ml: 1 }}
-            onClick={colorMode.toggleColorMode}
-            color="inherit"
-        >
-            {theme.palette.mode === "dark" ? (
-                <Brightness7Icon />
-            ) : (
-                <Brightness5Icon />
-            )}
-        </IconButton>
+        <Tooltip title="Change color theme">
+            <IconButton
+                sx={{ ml: 1 }}
+                onClick={colorMode.toggleColorMode}
+                color="inherit"
+            >
+                {theme.palette.mode === "dark" ? (
+                    <Brightness7Icon />
+                ) : (
+                    <Brightness5Icon />
+                )}
+            </IconButton>
+        </Tooltip>
     );
 }
 

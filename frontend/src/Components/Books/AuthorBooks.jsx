@@ -1,8 +1,15 @@
+/* Informations 
+╔═════════════════════════════════════════════════════════════════════════════╗
+║  v1.0  :  21-10-28                                                          ║
+║                                                                             ║
+║  Component that display all book from few authors                           ║
+║                                                                             ║
+╚════════════════════════════════════════════════════════════════════════════*/
+
+// Imports
 import React from "react";
 import { Link as RouterLink } from "react-router-dom";
 import { useBooksByAuthorList } from "../../Utils/accessHooks";
-import { filterContext } from "../../Pages/Content";
-import { useContext } from "react";
 import {
     List,
     ListItem,
@@ -12,6 +19,7 @@ import {
     InputLabel,
 } from "@mui/material";
 
+// Component
 const AuthorBooks = ({ authors }) => {
     const [list, loading] = useBooksByAuthorList(authors);
 
@@ -43,6 +51,7 @@ const AuthorBooks = ({ authors }) => {
                                 key={id.toString()}
                                 component={RouterLink}
                                 to={`/search/${x.title}`}
+                                // to={`/books/${x.id}/view`}
                                 underline="hover"
                                 sx={{ fontSize: 14, m: -0.5 }}
                             >
@@ -56,4 +65,5 @@ const AuthorBooks = ({ authors }) => {
     }
 };
 
+// Exports
 export default AuthorBooks;

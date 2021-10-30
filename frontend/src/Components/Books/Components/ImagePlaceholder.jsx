@@ -1,3 +1,12 @@
+/* Informations 
+╔═════════════════════════════════════════════════════════════════════════════╗
+║  v1.0  :  21-10-30                                                          ║
+║                                                                             ║
+║  Image to represent book genre.                                             ║
+║                                                                             ║
+╚════════════════════════════════════════════════════════════════════════════*/
+
+// Imports
 import imgHorror from "../../../Resources/Horror.jpg";
 import imgComputing from "../../../Resources/Computing.jpg";
 import imgFantasy from "../../../Resources/Fantasy.jpg";
@@ -7,6 +16,7 @@ import React from "react";
 import CardMedia from "@mui/material/CardMedia";
 import { Box } from "@mui/material";
 
+// Component
 const ImagePlaceholder = ({ genre }) => {
     let img = "";
     switch (genre) {
@@ -45,4 +55,5 @@ const ImagePlaceholder = ({ genre }) => {
     );
 };
 
+// Exports
 export default ImagePlaceholder;

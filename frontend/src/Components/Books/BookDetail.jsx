@@ -24,9 +24,11 @@ import {
     Switch,
 } from "@mui/material";
 import DatePicker from "@mui/lab/DatePicker";
-import { bookSchema, toStandardTime } from "../../Utils/validationTools";
+import { bookSchema } from "../../Utils/validationTools";
+import { toStandardTime } from "../../Utils/tools";
 import AuthorBooks from "./AuthorBooks";
-import ChipsArray from "./Components/ChipsArray";
+import ChipsArray from "./Components/AuthorArray";
+import { DateTime } from "luxon";
 
 // Component
 const BookDetail = ({ startingMode, customer, action }) => {
@@ -36,10 +38,10 @@ const BookDetail = ({ startingMode, customer, action }) => {
     let inputProperties = {};
     let hideID = false;
     if (mode === "view") {
-        message = `View: ${customer.title}`;
-        inputProperties = { readOnly: true };
+        message = "View book";
+        inputProperties = { disabled: true };
     } else if (mode === "edit") {
-        message = `Edit: ${customer.title}`;
+        message = "Edit book";
     } else if (mode === "create") {
         message = "Add new book";
         hideID = true;
@@ -56,7 +58,11 @@ const BookDetail = ({ startingMode, customer, action }) => {
             </Typography>
 
             <Formik
-                initialValues={customer}
+                initialValues={{
+                    ...customer,
+                    available: "true",
+                    publishDate: toStandardTime(DateTime.now()),
+                }}
                 validationSchema={bookSchema}
                 onSubmit={(values, { setSubmitting }) => {
                     const rez = action(values);
@@ -77,35 +83,36 @@ const BookDetail = ({ startingMode, customer, action }) => {
                     isSubmitting,
                 }) => (
                     <Form onSubmit={handleSubmit}>
-                        {/* {hideID || (
+                        <Box display="flex" flexDirection="row">
                             <TextField
                                 fullWidth
                                 margin="dense"
-                                name="id"
-                                label="Id"
-                                value={values.id}
+                                name="title"
+                                label="Title"
+                                value={values.title}
                                 onChange={handleChange}
                                 onBlur={handleBlur}
-                                error={touched.id && Boolean(errors.id)}
-                                helperText={touched.id && errors.id}
-                                InputProps={{ readOnly: true }}
+                                error={touched.title && Boolean(errors.title)}
+                                helperText={touched.title && errors.title}
                                 variant="outlined"
+                                InputProps={inputProperties}
                             />
-                        )} */}
-
-                        <TextField
-                            fullWidth
-                            margin="normal"
-                            name="title"
-                            label="Title"
-                            value={values.title}
-                            onChange={handleChange}
-                            onBlur={handleBlur}
-                            error={touched.title && Boolean(errors.title)}
-                            helperText={touched.title && errors.title}
-                            variant="outlined"
-                            InputProps={inputProperties}
-                        />
+                            {hideID || (
+                                <TextField
+                                    sx={{ width: "100px", ml: "10px" }}
+                                    margin="dense"
+                                    name="id"
+                                    label="Id"
+                                    value={values.id}
+                                    onChange={handleChange}
+                                    onBlur={handleBlur}
+                                    error={touched.id && Boolean(errors.id)}
+                                    helperText={touched.id && errors.id}
+                                    InputProps={{ disabled: true }}
+                                    variant="outlined"
+                                />
+                            )}
+                        </Box>
                         <Box
                             display="flex"
                             flexDirection="row"
@@ -162,12 +169,11 @@ const BookDetail = ({ startingMode, customer, action }) => {
 
                                 <InputLabel
                                     id="demo-simple-select-label"
-                                    sx={{ fontSize: "0.8rem" }}
+                                    sx={{ fontSize: "0.8rem", ml: "10px" }}
                                 >
                                     Genre
                                 </InputLabel>
                                 <Select
-                                    // margin="normal"
                                     fullWidth
                                     labelId="genreL"
                                     id="demo-simple-select-label"
@@ -177,11 +183,11 @@ const BookDetail = ({ startingMode, customer, action }) => {
                                     onChange={handleChange}
                                     onBlur={handleBlur}
                                     InputProps={inputProperties}
+                                    disabled={inputProperties.disabled}
                                     variant="outlined"
                                     error={
                                         touched.genre && Boolean(errors.genre)
                                     }
-                                    // helperText={touched.genre && errors.genre}
                                 >
                                     <MenuItem value={"Science Fiction"}>
                                         Science Fiction
@@ -203,7 +209,7 @@ const BookDetail = ({ startingMode, customer, action }) => {
                                     name="publishDate"
                                     label="Release date:"
                                     value={values.publishDate}
-                                    readOnly={inputProperties.readOnly}
+                                    disabled={inputProperties.disabled}
                                     onChange={(e) => {
                                         setFieldValue(
                                             "publishDate",
@@ -242,9 +248,8 @@ const BookDetail = ({ startingMode, customer, action }) => {
                                                 touched.available &&
                                                 Boolean(errors.available)
                                             }
-                                            // helperText={touched.available && errors.available}
                                             InputProps={inputProperties}
-                                            disabled={inputProperties.readOnly}
+                                            disabled={inputProperties.disabled}
                                         />
                                     }
                                     label="Available"
@@ -255,8 +260,20 @@ const BookDetail = ({ startingMode, customer, action }) => {
                                 <ChipsArray
                                     items={values.authors}
                                     InputProps={inputProperties}
+                                    error={
+                                        touched.authors &&
+                                        Boolean(errors.authors)
+                                    }
+                                    helperText={
+                                        touched.authors && errors.authors
+                                    }
                                     fieldSetter={setFieldValue}
                                 ></ChipsArray>
+                                {/* <span>
+                                    {touched.authors && Boolean(errors.authors)
+                                        ? errors.authors
+                                        : ""}
+                                </span> */}
                                 {mode === "view" ? (
                                     <AuthorBooks
                                         authors={values.authors}
@@ -278,7 +295,7 @@ const BookDetail = ({ startingMode, customer, action }) => {
                                 type="submit"
                                 sx={{ mt: "12px" }}
                             >
-                                Snimi
+                                Save
                             </Button>
                         )}
                     </Form>

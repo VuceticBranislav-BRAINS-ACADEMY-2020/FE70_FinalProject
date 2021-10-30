@@ -1,3 +1,13 @@
+/* Informations 
+╔═════════════════════════════════════════════════════════════════════════════╗
+║  v1.0  :  21-10-28                                                          ║
+║                                                                             ║
+║  Search page for books based on string. Only author name will be taken      ║
+║  into account                                                               ║
+║                                                                             ║
+╚════════════════════════════════════════════════════════════════════════════*/
+
+// Imports
 import React, { useState } from "react";
 import {
     deleteCustomer,
@@ -14,6 +24,7 @@ import { filterContext } from "./Content";
 import { useContext } from "react";
 import LinearProgress from "@mui/material/LinearProgress";
 
+// Component
 const BookSearchPageByAuthorParam = ({ initialQuery }) => {
     const [query, setQuery] = useState(initialQuery);
     const [searchQuery, setSearchQuery] = useState(initialQuery);
@@ -39,13 +50,12 @@ const BookSearchPageByAuthorParam = ({ initialQuery }) => {
     const keyPress = (e) => {
         if (e.code === "Enter" || e.code === "NumpadEnter") {
             e.preventDefault();
-            console.log("yay");
+
             searchPress();
         }
     };
 
     const searchPress = (e) => {
-        console.log("nei");
         setSearchQuery(query);
         const location = {
             pathname: "/searchauthor/" + query,
@@ -97,6 +107,8 @@ const BookSearchPageByAuthorParam = ({ initialQuery }) => {
                 />
                 <TablePagination
                     component="div"
+                    showFirstButton
+                    showLastButton
                     count={length}
                     page={page - 1}
                     onPageChange={(e, p) => goToPage(p)}
@@ -119,9 +131,11 @@ BookSearchPageByAuthorParam.defaultProps = {
     initialQuery: "",
 };
 
+// Wrapper for url parameter
 const BookSearchPageByAuthor = () => {
     const { query } = useParams();
     return <BookSearchPageByAuthorParam initialQuery={query} />;
 };
 
+// Exports
 export default BookSearchPageByAuthor;

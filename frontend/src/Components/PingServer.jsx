@@ -65,7 +65,6 @@ const PingServer = () => {
                     <Box>
                         You can user server from&#160;
                         <Link
-                            // rel="noopener noreferrer"
                             target="_blank"
                             href="https://github.com/VuceticBranislav-BRAINS-ACADEMY-2020/FE70_FinalProject/tree/master/backend"
                             underline="always"

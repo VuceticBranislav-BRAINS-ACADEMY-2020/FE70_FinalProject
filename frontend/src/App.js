@@ -2,7 +2,7 @@
 ╔═════════════════════════════════════════════════════════════════════════════╗
 ║  v1.0  :  21-10-21                                                          ║
 ║                                                                             ║
-║  Main application.                                                          ║ 
+║  Main application component                                                 ║ 
 ║                                                                             ║ 
 ╚════════════════════════════════════════════════════════════════════════════*/
 
@@ -20,7 +20,7 @@ import Article from "./Navigation/Article";
 import LogInBox from "./Components/LogIn/LogInBox";
 import SingInBox from "./Components/SignIn/SingInBox";
 import PrivateRoute from "./Navigation/PrivateRoute";
-import AllBookList from "./Pages/AllBookList";
+import BookListPage from "./Pages/BookListPage";
 import BookSearchPage from "./Pages/BookSearchPage";
 import BookSearchPageByAuthor from "./Pages/BookSearchPageByAuthor";
 import BookDetailPage from "./Pages/BookDetailPage";
@@ -28,6 +28,7 @@ import AddBookPage from "./Components/Books/AddBookPage";
 import Welcome from "./Pages/Welcome";
 import ToggleColorMode from "./Pages/ToggleColorMode";
 import NavBar from "./Navigation/NavBar";
+import Error404 from "./Components/Error404";
 
 export function App() {
     return (
@@ -49,7 +50,7 @@ export function App() {
                                         </ProvideRegister>
                                     </Route>
                                     <PrivateRoute path="/allbooks">
-                                        <AllBookList />
+                                        <BookListPage />
                                     </PrivateRoute>
                                     <PrivateRoute path="/search/:query?">
                                         <BookSearchPage />
@@ -67,7 +68,7 @@ export function App() {
                                         <Welcome />
                                     </Route>
                                     <Route path="*">
-                                        <div>Error 404</div>
+                                        <Error404 />
                                     </Route>
                                 </Switch>
                             </Article>

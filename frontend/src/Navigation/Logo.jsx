@@ -29,7 +29,6 @@ const Logo = () => {
                 display: "flex",
                 flexDirection: "row",
             }}
-            to="/"
             onClick={() => {
                 let location = {
                     pathname: "/",

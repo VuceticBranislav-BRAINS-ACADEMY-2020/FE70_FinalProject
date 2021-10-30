@@ -1,9 +1,15 @@
-import React, { useState, useMemo, useRef, useEffect } from "react";
-import {
-    usePagedCustomerList,
-    deleteCustomer,
-    usePagedSearchBookList,
-} from "../Utils/accessHooks";
+/* Informations 
+╔═════════════════════════════════════════════════════════════════════════════╗
+║  v1.0  :  21-10-28                                                          ║
+║                                                                             ║
+║  Search page for books based on string. All atributes are taken into        ║
+║  account                                                                    ║
+║                                                                             ║
+╚════════════════════════════════════════════════════════════════════════════*/
+
+// Imports
+import React, { useState } from "react";
+import { deleteCustomer, usePagedSearchBookList } from "../Utils/accessHooks";
 import BookList from "../Components/Books/BookList";
 import TablePagination from "@mui/material/TablePagination";
 import { Button } from "@mui/material";
@@ -15,6 +21,7 @@ import { filterContext } from "./Content";
 import { useContext } from "react";
 import LinearProgress from "@mui/material/LinearProgress";
 
+// Component
 const BookSearchPageParam = ({ initialQuery }) => {
     const [query, setQuery] = useState(initialQuery);
     const [searchQuery, setSearchQuery] = useState(initialQuery);
@@ -40,13 +47,11 @@ const BookSearchPageParam = ({ initialQuery }) => {
     const keyPress = (e) => {
         if (e.code === "Enter" || e.code === "NumpadEnter") {
             e.preventDefault();
-            console.log("yay");
             searchPress();
         }
     };
 
     const searchPress = (e) => {
-        console.log("nei");
         setSearchQuery(query);
         const location = {
             pathname: "/search/" + query,
@@ -98,6 +103,8 @@ const BookSearchPageParam = ({ initialQuery }) => {
                 />
                 <TablePagination
                     component="div"
+                    showFirstButton
+                    showLastButton
                     count={length}
                     page={page - 1}
                     onPageChange={(e, p) => goToPage(p)}
@@ -120,9 +127,11 @@ BookSearchPageParam.defaultProps = {
     initialQuery: "",
 };
 
+// Wrapper for url parameter
 const BookSearchPage = () => {
     const { query } = useParams();
     return <BookSearchPageParam initialQuery={query} />;
 };
 
+// Exports
 export default BookSearchPage;

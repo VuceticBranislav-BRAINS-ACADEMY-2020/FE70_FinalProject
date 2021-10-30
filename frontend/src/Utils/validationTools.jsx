@@ -1,8 +1,17 @@
+/* Informations 
+╔═════════════════════════════════════════════════════════════════════════════╗
+║  v1.0  :  21-10-28                                                          ║
+║                                                                             ║
+║  Yup validation schemes                                                     ║
+║                                                                             ║
+╚════════════════════════════════════════════════════════════════════════════*/
+
+// Imports
 import * as yup from "yup";
 import { DateTime } from "luxon";
 import { getMaxCount, userExists } from "../Utils/tools";
 
-export const signupSchema = yup.object().shape({
+const signupSchema = yup.object().shape({
     username: yup
         .string()
         .min(3, "Username is to short. Length must be at least 3 character")
@@ -46,23 +55,42 @@ export const signupSchema = yup.object().shape({
         }),
 });
 
-export const bookSchema = yup.object().shape({
+const bookSchema = yup.object().shape({
     id: yup.mixed().nullable(true).default(null),
-    title: yup.string().ensure().required("Enter book name"),
-    isbn: yup.string().ensure().required("Mora se uneti isbn"),
+    title: yup
+        .string()
+        .required("Enter book name")
+        .max(50, "Book title too long. Maximum 50 characters.")
+        .ensure(),
+    isbn: yup
+        .number()
+        .typeError("ISBN must be a number")
+        .required("Enter ISBN number")
+        .test("ISBN-length", "ISBN must have 12 digits", (num) =>
+            /^(\d{12})$/.test(num)
+        ),
     publishDate: yup
         .date()
         .max(DateTime.now(), "Date can not be in future")
         .typeError("Must be a date"),
     authors: yup
         .array()
-        .of(yup.string().ensure().required("Mora se uneti autor")),
-    genre: yup.string().ensure().required("Mora se uneti genre"),
-    pages: yup.string().ensure().required("Mora se uneti pages"),
-    // available: yup.string().ensure().required("Mora se uneti available"),
-    rating: yup.string().ensure().required("Mora se uneti available"),
+        .of(yup.string().ensure().required("Enter authors"))
+        .min(1, "Enter at least one author"),
+    genre: yup.string().ensure().required("Enter genre"),
+    pages: yup
+        .number()
+        .required("Enter number of pages")
+        .positive("Must be positive number")
+        .integer("Must be integer number"),
+
+    available: yup.string().ensure().required("Enter available"),
+    rating: yup
+        .number()
+        .required("Enter ranting from 1 to 5")
+        .min(1, "Value must be at least 1")
+        .max(5, "Value must be at most 5"),
 });
 
-export const toStandardTime = (time) => {
-    return time.toFormat("y-MM-dd");
-};
+// Exports
+export { signupSchema, bookSchema };
