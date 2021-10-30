@@ -97,10 +97,10 @@ export const usePagedBookList = (
             setLocation(1);
             load();
         },
-        () => {
+        async () => {
             //reload
-            setLoading(true);
-            load();
+            await setLoading(true);
+            await load();
         },
     ];
 };
@@ -202,9 +202,9 @@ export const usePagedSearchBookList = (
             setLocation(1);
             load();
         },
-        () => {
-            setLoading(true);
-            load();
+        async () => {
+            await setLoading(true);
+            await load();
         },
     ];
 };
@@ -306,9 +306,9 @@ export const usePagedSearchBookListByAuthor = (
             setLocation(1);
             load();
         },
-        () => {
-            setLoading(true);
-            load();
+        async () => {
+            await setLoading(true);
+            await load();
         },
     ];
 };
